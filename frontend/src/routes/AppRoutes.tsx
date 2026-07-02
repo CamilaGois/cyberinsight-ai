@@ -1,18 +1,15 @@
-import { Routes, Route } from "react-router-dom";
-
-function Home() {
-  return <h2 style={{ padding: 20 }}>Dashboard OK 🔐</h2>;
-}
-
-function NewIncident() {
-  return <h2 style={{ padding: 20 }}>Novo Incidente OK</h2>;
-}
+import Dashboard from "../pages/Dashboard/Dashboard";
+import IncidentForm from "../pages/IncidentForm/IncidentForm";
+import Analysis from "../pages/Analysis/Analysis";
+import History from "../pages/History/History";
 
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/new" element={<NewIncident />} />
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/new" element={<IncidentForm />} />
+      <Route path="/analysis" element={<Analysis />} />
+      <Route path="/history" element={<History />} />
     </Routes>
   );
 }
