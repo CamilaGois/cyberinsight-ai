@@ -1,4 +1,6 @@
 import "./SOCDashboard.css";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import Topbar from "../../components/Topbar/Topbar";
 
 type Severidade = "Crítica" | "Alta" | "Média" | "Baixa";
 
@@ -102,60 +104,13 @@ const barrasTimeline = Array.from({ length: 26 }, (_, index) => ({
 function SOCDashboard() {
   return (
     <div className="soc-layout">
-      <aside className="soc-sidebar">
-        <div className="soc-brand">
-          <div className="soc-brand-icon">CI</div>
-          <strong>CyberInsight AI</strong>
-        </div>
-
-        <nav className="soc-nav">
-          <span>Principal</span>
-          <a className="active">Dashboard</a>
-          <a>Entrada de Logs</a>
-          <a>Histórico</a>
-          <a>Playbooks</a>
-          <a>Alertas</a>
-
-          <span>Análise</span>
-          <a>Zeek Explorer</a>
-
-          <span>Sistema</span>
-          <a>Configurações</a>
-        </nav>
-
-        <div className="soc-system-status">
-          <strong>Status do sistema</strong>
-          <p>
-            Sistema <span>Operacional</span>
-          </p>
-          <p>
-            Zeek <span>Conectado</span>
-          </p>
-          <p>
-            Splunk API <span>Conectado</span>
-          </p>
-        </div>
-      </aside>
-
+      <Sidebar />
+       
       <main className="soc-main">
-        <header className="soc-header">
-          <div>
-            <h1>SOC Dashboard</h1>
-            <p>Visão geral da operação de segurança em tempo real</p>
-          </div>
-
-          <div className="soc-header-actions">
-            <button type="button">Últimas 24 horas</button>
-
-            <div className="soc-user">
-              <span>C</span>
-              <div>
-                <strong>Camila Gois</strong>
-                <small>Analista SOC</small>
-              </div>
-            </div>
-          </div>
-        </header>
+        <Topbar
+          title="SOC Dashboard"
+            subtitle="Visão geral da operação de segurança em tempo real"
+          />
 
         <section className="soc-kpi-grid">
           <article className="soc-kpi-card blue">

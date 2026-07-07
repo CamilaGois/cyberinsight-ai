@@ -1,0 +1,52 @@
+.app-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.app-topbar h1 {
+  margin: 0;
+  font-size: 30px;
+  color: #e5e7eb;
+}
+
+.app-topbar p {
+  margin: 6px 0 0;
+  color: #94a3b8;
+}
+
+.app-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.app-topbar-actions button {
+  background: #111827;
+  color: #e5e7eb;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.app-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-user > span {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #1e293b;
+  display: grid;
+  place-items: center;
+  color: #e5e7eb;
+}
+
+.app-user small {
+  display: block;
+  color: #94a3b8;
+}

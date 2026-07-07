@@ -1,5 +1,7 @@
 import { useRef, useState } from "react";
 import "./LogInput.css";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import Topbar from "../../components/Topbar/Topbar";
 
 type TipoLog =
   | "Windows Event"
@@ -41,60 +43,13 @@ function LogInput() {
 
   return (
     <div className="log-layout">
-      <aside className="log-sidebar">
-        <div className="log-brand">
-          <div className="log-brand-icon">CI</div>
-          <strong>CyberInsight AI</strong>
-        </div>
-
-        <nav className="log-nav">
-          <span>Principal</span>
-          <a>Dashboard</a>
-          <a className="active">Entrada de Logs</a>
-          <a>Histórico</a>
-          <a>Playbooks</a>
-          <a>Alertas</a>
-
-          <span>Análise</span>
-          <a>Zeek Explorer</a>
-
-          <span>Sistema</span>
-          <a>Configurações</a>
-        </nav>
-
-        <div className="log-system-status">
-          <strong>Status do sistema</strong>
-          <p>
-            Sistema <span>Operacional</span>
-          </p>
-          <p>
-            Zeek <span>Conectado</span>
-          </p>
-          <p>
-            Splunk API <span>Conectado</span>
-          </p>
-        </div>
-      </aside>
+      <Sidebar />
 
       <main className="log-main">
-        <header className="log-header">
-          <div>
-            <h1>Entrada de Logs</h1>
-            <p>Importe logs para simular análise de incidentes de segurança</p>
-          </div>
-
-          <div className="log-header-actions">
-            <button type="button">Últimas 24 horas</button>
-
-            <div className="log-user">
-              <span>C</span>
-              <div>
-                <strong>Camila Gois</strong>
-                <small>Analista SOC</small>
-              </div>
-            </div>
-          </div>
-        </header>
+        <Topbar
+          title="Entrada de Logs"
+            subtitle="Importe logs para simular análise de incidentes de segurança"
+          />
 
         <section className="log-content-grid">
           <div className="log-left-column">

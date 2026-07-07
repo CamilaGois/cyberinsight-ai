@@ -206,17 +206,21 @@
   color: var(--soc-green);
 }
 
-.history-content-grid {
+.history-content {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 380px;
-  gap: 16px;
+  grid-template-columns: minmax(0, 2fr) 420px;
+  gap: 20px;
+  align-items: start;
 }
 
-.history-left-column,
+.history-left-column {
+  min-width: 0;
+}
+
 .history-right-column {
-  display: grid;
-  gap: 16px;
-  align-content: start;
+  min-width: 360px;
+  position: sticky;
+  top: 24px;
 }
 
 .history-card {

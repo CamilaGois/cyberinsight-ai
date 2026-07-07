@@ -1,68 +1,59 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import "./Sidebar.css";
+
+const navItems = [
+  { label: "Dashboard", path: "/" },
+  { label: "Entrada de Logs", path: "/logs" },
+  { label: "Histórico", path: "/history" },
+  { label: "Playbooks", path: "/playbook" },
+  { label: "Alertas", path: "/alerts" },
+];
 
 export default function Sidebar() {
+  const location = useLocation();
+
   return (
-    <div
-      style={{
-        width: 240,
-        background: "#0f172a",
-        color: "#fff",
-        padding: 20,
-        minHeight: "100vh",
-        boxSizing: "border-box",
-      }}
-    >
-      <h2 style={{ marginBottom: 30 }}>
-        🛡️ CyberInsight AI
-      </h2>
+    <aside className="app-sidebar">
+      <div className="app-brand">
+        <div className="app-brand-icon">CI</div>
+        <div>
+          <strong>CyberInsight AI</strong>
+          <small>Threat Detection Platform</small>
+        </div>
+      </div>
 
-      <nav
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 15,
-        }}
-      >
-        <Link
-          to="/"
-          style={{
-            color: "#fff",
-            textDecoration: "none",
-          }}
-        >
-          📊 SOC Dashboard
-        </Link>
+      <nav className="app-nav">
+        <span>Principal</span>
 
-        <Link
-          to="/logs"
-          style={{
-            color: "#fff",
-            textDecoration: "none",
-          }}
-        >
-          📥 Entrada de Logs
-        </Link>
+        {navItems.map((item) => (
+          <Link
+            key={item.path}
+            to={item.path}
+            className={location.pathname === item.path ? "active" : ""}
+          >
+            {item.label}
+          </Link>
+        ))}
 
-        <Link
-          to="/history"
-          style={{
-            color: "#fff",
-            textDecoration: "none",
-          }}
-        >
-          📁 Histórico
-        </Link>
+        <span>Análise</span>
+        <Link to="/ioc">IOC Explorer</Link>
 
-        <Link
-          to="/playbook"
-          style={{
-            color: "#fff",
-            textDecoration: "none",
-          }}
-        >
-          📚 Playbook
-        </Link>
+        <span>Sistema</span>
+        <Link to="/settings">Configurações</Link>
       </nav>
-    </div>
+
+      <div className="app-system-status">
+        <strong>Status do sistema</strong>
+        <p>
+          Sistema <span>Operacional</span>
+        </p>
+        <p>
+          Zeek <span>Conectado</span>
+        </p>
+        <p>
+          Splunk API <span>Mock</span>
+        </p>
+      </div>
+    </aside>
   );
 }
