@@ -1,15 +1,17 @@
-import Dashboard from "../pages/Dashboard/Dashboard";
-import IncidentForm from "../pages/IncidentForm/IncidentForm";
-import Analysis from "../pages/Analysis/Analysis";
+import { Routes, Route, Navigate } from "react-router-dom";
+
+import SOCDashboard from "../pages/SOCDashboard/SOCDashboard";
+import LogInput from "../pages/LogInput/LogInput";
 import History from "../pages/History/History";
 
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Dashboard />} />
-      <Route path="/new" element={<IncidentForm />} />
-      <Route path="/analysis" element={<Analysis />} />
+      <Route path="/" element={<SOCDashboard />} />
+      <Route path="/logs" element={<LogInput />} />
       <Route path="/history" element={<History />} />
+
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
