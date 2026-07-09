@@ -1,10 +1,13 @@
+import { useEffect, useState } from "react";
 import "./SOCDashboard.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Topbar from "../../components/Topbar/Topbar";
+import { getApiIncidents, type ApiIncident } from "../../services/api";
 
 type Severidade = "Crítica" | "Alta" | "Média" | "Baixa";
 
 type Incidente = {
+  id: number;
   horario: string;
   severidade: Severidade;
   titulo: string;
@@ -20,44 +23,6 @@ type AtividadeRede = {
   bytes: string;
   descricao: string;
 };
-
-const incidentes: Incidente[] = [
-  {
-    horario: "10:30:12",
-    severidade: "Crítica",
-    titulo: "Tentativa de brute force detectada",
-    origem: "192.168.1.45",
-    status: "Em investigação",
-  },
-  {
-    horario: "10:28:45",
-    severidade: "Alta",
-    titulo: "Malware detectado em host",
-    origem: "10.0.0.23",
-    status: "Em análise",
-  },
-  {
-    horario: "10:25:31",
-    severidade: "Alta",
-    titulo: "Múltiplas tentativas de login falharam",
-    origem: "172.16.0.10",
-    status: "Novo",
-  },
-  {
-    horario: "10:22:18",
-    severidade: "Média",
-    titulo: "Acesso a servidor fora do horário",
-    origem: "10.0.0.15",
-    status: "Em investigação",
-  },
-  {
-    horario: "10:18:07",
-    severidade: "Baixa",
-    titulo: "Varredura de portas detectada",
-    origem: "192.168.1.88",
-    status: "Monitorando",
-  },
-];
 
 const atividadesRede: AtividadeRede[] = [
   {
@@ -101,40 +66,75 @@ const barrasTimeline = Array.from({ length: 26 }, (_, index) => ({
   critica: 6 + ((index * 4) % 18),
 }));
 
+function mapApiIncident(item: ApiIncident): Incidente {
+  return {
+    id: item.id,
+    horario: "10:30:00",
+    severidade: item.severity,
+    titulo: item.title,
+    origem: item.source,
+    status: item.status,
+  };
+}
+
 function SOCDashboard() {
+  const [incidentes, setIncidentes] = useState<Incidente[]>([]);
+
+  useEffect(() => {
+    getApiIncidents()
+      .then((dados) => {
+        setIncidentes(dados.map(mapApiIncident));
+      })
+      .catch((erro) => {
+        console.error("Erro ao carregar incidentes da API:", erro);
+      });
+  }, []);
+
+  const totalCriticos = incidentes.filter(
+    (incidente) => incidente.severidade === "Crítica"
+  ).length;
+
+  const totalInvestigacao = incidentes.filter((incidente) =>
+    incidente.status.toLowerCase().includes("investig")
+  ).length;
+
+  const totalResolvidos = incidentes.filter(
+    (incidente) => incidente.status === "Resolvido"
+  ).length;
+
   return (
     <div className="soc-layout">
       <Sidebar />
-       
+
       <main className="soc-main">
         <Topbar
           title="SOC Dashboard"
-            subtitle="Visão geral da operação de segurança em tempo real"
-          />
+          subtitle="Visão geral da operação de segurança em tempo real"
+        />
 
         <section className="soc-kpi-grid">
           <article className="soc-kpi-card blue">
             <span>Incidentes totais</span>
-            <strong>128</strong>
-            <p>+12% vs últimas 24h</p>
+            <strong>{incidentes.length}</strong>
+            <p>Dados carregados via API</p>
           </article>
 
           <article className="soc-kpi-card red">
             <span>Incidentes críticos</span>
-            <strong>15</strong>
-            <p>+25% vs últimas 24h</p>
+            <strong>{totalCriticos}</strong>
+            <p>Prioridade alta no SOC</p>
           </article>
 
           <article className="soc-kpi-card yellow">
             <span>Em investigação</span>
-            <strong>8</strong>
-            <p>-11% vs últimas 24h</p>
+            <strong>{totalInvestigacao}</strong>
+            <p>Casos em análise</p>
           </article>
 
           <article className="soc-kpi-card green">
             <span>Resolvidos</span>
-            <strong>97%</strong>
-            <p>+8% vs últimas 24h</p>
+            <strong>{totalResolvidos}</strong>
+            <p>Incidentes encerrados</p>
           </article>
         </section>
 
@@ -167,21 +167,21 @@ function SOCDashboard() {
           <article className="soc-card">
             <div className="soc-card-header">
               <h2>Tipos de incidente</h2>
-              <small>Total 128</small>
+              <small>Total {incidentes.length}</small>
             </div>
 
             <div className="donut-row">
               <div className="mock-donut">
-                <strong>128</strong>
+                <strong>{incidentes.length}</strong>
                 <span>Total</span>
               </div>
 
               <div className="incident-types">
-                <p><span className="red-dot" /> Brute force <strong>28</strong></p>
-                <p><span className="yellow-dot" /> Malware <strong>25</strong></p>
-                <p><span className="blue-dot" /> Acesso suspeito <strong>22</strong></p>
-                <p><span className="green-dot" /> Phishing <strong>18</strong></p>
-                <p><span className="purple-dot" /> Outros <strong>35</strong></p>
+                <p><span className="red-dot" /> Brute force <strong>1</strong></p>
+                <p><span className="yellow-dot" /> Malware <strong>1</strong></p>
+                <p><span className="blue-dot" /> Acesso suspeito <strong>0</strong></p>
+                <p><span className="green-dot" /> Phishing <strong>0</strong></p>
+                <p><span className="purple-dot" /> Outros <strong>1</strong></p>
               </div>
             </div>
           </article>
@@ -196,22 +196,28 @@ function SOCDashboard() {
               <div>
                 <span>Crítica</span>
                 <i className="red-bar" style={{ width: "36%" }} />
-                <strong>15</strong>
+                <strong>{totalCriticos}</strong>
               </div>
               <div>
                 <span>Alta</span>
                 <i className="orange-bar" style={{ width: "70%" }} />
-                <strong>35</strong>
+                <strong>
+                  {incidentes.filter((i) => i.severidade === "Alta").length}
+                </strong>
               </div>
               <div>
                 <span>Média</span>
                 <i className="yellow-bar" style={{ width: "84%" }} />
-                <strong>42</strong>
+                <strong>
+                  {incidentes.filter((i) => i.severidade === "Média").length}
+                </strong>
               </div>
               <div>
                 <span>Baixa</span>
                 <i className="green-bar" style={{ width: "72%" }} />
-                <strong>36</strong>
+                <strong>
+                  {incidentes.filter((i) => i.severidade === "Baixa").length}
+                </strong>
               </div>
             </div>
           </article>
@@ -222,7 +228,7 @@ function SOCDashboard() {
             <article className="soc-card">
               <div className="soc-card-header">
                 <h2>Incidentes recentes</h2>
-                <small>Dados simulados</small>
+                <small>Dados vindos da API FastAPI</small>
               </div>
 
               <div className="soc-table-wrap">
@@ -237,9 +243,10 @@ function SOCDashboard() {
                       <th>Ações</th>
                     </tr>
                   </thead>
+
                   <tbody>
                     {incidentes.map((incidente) => (
-                      <tr key={`${incidente.horario}-${incidente.titulo}`}>
+                      <tr key={incidente.id}>
                         <td>{incidente.horario}</td>
                         <td>
                           <span className={`severity-pill ${incidente.severidade}`}>
@@ -279,6 +286,7 @@ function SOCDashboard() {
                       <th>Descrição</th>
                     </tr>
                   </thead>
+
                   <tbody>
                     {atividadesRede.map((atividade) => (
                       <tr key={`${atividade.origem}-${atividade.destino}-${atividade.porta}`}>
@@ -300,23 +308,22 @@ function SOCDashboard() {
             <article className="soc-card">
               <div className="soc-card-header">
                 <h2>Alertas ativos</h2>
-                <small>3 alertas</small>
+                <small>{incidentes.length} alertas</small>
               </div>
 
-              <div className="active-alert red-alert">
-                <strong>Brute force em andamento</strong>
-                <span>192.168.1.45 - 10:30:12</span>
-              </div>
-
-              <div className="active-alert yellow-alert">
-                <strong>Malware detectado</strong>
-                <span>10.0.0.23 - 10:28:45</span>
-              </div>
-
-              <div className="active-alert yellow-alert">
-                <strong>Acesso suspeito</strong>
-                <span>172.16.0.10 - 10:25:31</span>
-              </div>
+              {incidentes.map((incidente) => (
+                <div
+                  key={incidente.id}
+                  className={
+                    incidente.severidade === "Crítica"
+                      ? "active-alert red-alert"
+                      : "active-alert yellow-alert"
+                  }
+                >
+                  <strong>{incidente.titulo}</strong>
+                  <span>{incidente.origem} - {incidente.horario}</span>
+                </div>
+              ))}
             </article>
 
             <article className="soc-card ai-card">
@@ -325,7 +332,10 @@ function SOCDashboard() {
                 <small>Sem IA real</small>
               </div>
 
-              <p>A IA analisou 128 eventos simulados nas últimas 24 horas.</p>
+              <p>
+                A IA analisou {incidentes.length} eventos retornados pela API nas
+                últimas 24 horas.
+              </p>
 
               <div className="risk-score">
                 <span>Probabilidade de ameaça crítica</span>
