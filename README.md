@@ -608,3 +608,8 @@ Além deste README, o projeto possui uma pasta `docs/prompts/`, separados por di
 | `docs/problemas-encontrados.md` | Dificuldades, erros e limitações observadas durante a implementação. |
 | `docs/roadmap.md` | Planejamento de melhorias futuras e evolução da aplicação. |
 
+## Limitação encontrada no backend
+
+Durante a preparação do backend com FastAPI, foi identificada incompatibilidade do ambiente local com Python 3.14, especialmente na instalação do `pydantic-core`, dependência utilizada pelo FastAPI/Pydantic.
+
+Por esse motivo, a entrega intermediária priorizou o frontend funcional, a estrutura da aplicação, a navegação, as telas e os dados simulados, conforme o foco principal da avaliação. A arquitetura FastAPI + SQLite permanece documentada como evolução planejada.
