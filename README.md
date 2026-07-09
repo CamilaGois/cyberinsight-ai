@@ -1,5 +1,5 @@
 # cyberinsight-ai
-Assistente Inteligente de Análise de Incidentes utilizando IA Generativa.
+Plataforma de apoio a analistas SOC para análise de logs de segurança utilizando IA Generativa, MITRE ATT&CK e Playbooks automatizados.
 
 ## Links do Projeto
 
