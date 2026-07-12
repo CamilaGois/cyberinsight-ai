@@ -50,11 +50,12 @@ A arquitetura foi planejada para permitir futura integração com modelos de IA 
 
 | Recurso | Link |
 |---------|------|
-| 🌐 Endpoint Público | **(Adicionar após o deploy)** |
+| 🌐 Aplicação Pública | https://cyberinsight-ai.vercel.app |
 | 📂 Repositório GitHub | https://github.com/CamilaGois/cyberinsight-ai |
-| 📑 Swagger | http://127.0.0.1:8000/docs |
-|    API de Incidentes |  http://127.0.0.1:8000/api/incidents/
-|    Frontend Local | http://localhost:5173 |
+| 📑 ReDoc | https://cyberinsight-ai.vercel.app/redoc |
+| 🔐 API de Incidentes | https://cyberinsight-ai.vercel.app/api/incidents/ |
+| 💻 Frontend Local | http://localhost:5173 |
+| ⚙️ Backend Local | http://127.0.0.1:8000 |
 
 ---
 
@@ -94,7 +95,7 @@ A arquitetura foi planejada para permitir futura integração com modelos de IA 
 ## Histórico
 
 <p align="center">
-<img src="docs/screenshots/history.png" width="900">
+<img src="docs/screenshots/historico.png" width="900">
 </p>
 
 ---
@@ -103,6 +104,14 @@ A arquitetura foi planejada para permitir futura integração com modelos de IA 
 
 <p align="center">
 <img src="docs/screenshots/playbooks-soc.png" width="900">
+</p>
+
+---
+
+## PExplorador de IOC
+
+<p align="center">
+<img src="docs/screenshots/IOC.png" width="900">
 </p>
 
 ---
@@ -311,8 +320,8 @@ Em versões futuras, esses playbooks serão gerados automaticamente por Intelig�
 ## Deploy
 
 | Plataforma | Finalidade |
-|------------|------------|
-| Hugging Face Spaces | Hospedagem do endpoint público da aplicação |
+|---|---|
+| Vercel | Hospedagem pública do frontend React e da API FastAPI |
 
 ---
 
@@ -484,17 +493,28 @@ O backend disponibiliza uma API REST desenvolvida em FastAPI responsável pela c
 | GET | `/api/incidents/` | Lista os incidentes cadastrados |
 | POST | `/api/logs/import` | Importa arquivos de log para análise |
 | GET | `/api/playbooks/` | Retorna os playbooks disponíveis |
+| GET | `/redoc` | Documentação interativa da API (ReDoc) |
 
+### Endpoints públicos
+
+| Recurso | URL |
+|----------|-----|
+| 🌐 Aplicação | https://cyberinsight-ai.vercel.app |
+| 📘 ReDoc | https://cyberinsight-ai.vercel.app/redoc |
+| GET - Incidentes | https://cyberinsight-ai.vercel.app/api/incidents/ |
+| POST - Importação de Logs | https://cyberinsight-ai.vercel.app/api/logs/import |
+| GET - Playbooks | https://cyberinsight-ai.vercel.app/api/playbooks/ |
 ---
 
 ## Documentação da API
 
-A FastAPI gera automaticamente a documentação dos endpoints.
+A FastAPI gera automaticamente a documentação interativa da API, permitindo visualizar os endpoints disponíveis e testar as requisições diretamente pelo navegador.
 
 | Interface | URL |
 |-----------|-----|
-| Swagger UI | `/docs` |
-| localhost | `/incidents` |
+| Swagger UI | https://cyberinsight-ai.vercel.app/docs |
+| ReDoc | https://cyberinsight-ai.vercel.app/redoc |
+| API de Incidentes | https://cyberinsight-ai.vercel.app/api/incidents/ |
 
 ---
 
@@ -502,7 +522,8 @@ A FastAPI gera automaticamente a documentação dos endpoints.
 
 A aplicação possui implantação pública utilizando **Hugging Face Spaces**, permitindo a demonstração das funcionalidades sem necessidade de instalação local.
 
-> **URL:** *(Inserir o link do endpoint público após o deploy.)*
+> > **URL da aplicação:** https://cyberinsight-ai.vercel.app
+> > > **URL da API:** https://cyberinsight-ai.vercel.app/docs
 
 ---
 
@@ -540,13 +561,14 @@ Durante o desenvolvimento, nenhuma alteração gerada por IA foi incorporada sem
 
 ## Ferramentas Utilizadas
 
-| Ferramenta | Finalidade |
-|------------|------------|
-| **OpenAI Codex** | Geração e refatoração de código, criação de componentes React, apoio na implementação do frontend e backend. |
-| **ChatGPT (Plano Pro)** | Planejamento da arquitetura, revisão técnica, documentação, análise de erros, elaboração do README e apoio na resolução de problemas. |
-| **Google Gemini** | Comparação de abordagens, validação de soluções técnicas e pesquisa complementar. |
-| **Continue (VS Code Extension)** | Assistente de programação integrado ao Visual Studio Code para geração incremental de código. |
-| **Hugging Face Spaces** | Hospedagem do endpoint público da aplicação para demonstração do projeto. |
+|    Ferramenta    | Finalidade |
+|------------------|------------|
+| **OpenAI Codex** | Geração, refatoração e correção de código, implementação de funcionalidades, integração entre frontend e backend e auxílio na resolução de erros durante o desenvolvimento. |
+| **ChatGPT Plus (GPT-5.5)** | Planejamento da arquitetura, revisão técnica, documentação, elaboração do README, apoio na depuração de erros, configuração do deploy e validação da aplicação. |
+| **Google Gemini** | Pesquisa complementar e comparação de abordagens técnicas durante o desenvolvimento. |
+| **Continue (VS Code Extension)** | Assistente de programação integrado ao Visual Studio Code para geração incremental de código e produtividade durante a implementação. |
+| **GitHub** | Versionamento do código-fonte, gerenciamento dos commits e hospedagem do repositório do projeto. |
+| **Vercel** | Deploy e hospedagem pública da aplicação React e da API FastAPI, disponibilizando o sistema e os endpoints para acesso externo. |
 
 ---
 
@@ -629,17 +651,22 @@ Alguns exemplos incluem:
 - Documentar decisões arquiteturais e limitações do projeto.
 
 ---
-
 ### Correção de Problemas
 
-Os agentes também auxiliaram na identificação e correção de situações como:
+Durante o desenvolvimento, os agentes de IA auxiliaram na identificação, análise e correção de diversos problemas técnicos, incluindo:
 
-- conflitos entre importações e exportações;
+- conflitos entre importações e exportações de módulos;
 - erros de tipagem em TypeScript;
-- inconsistências em rotas React;
-- problemas de configuração do ambiente Python;
-- falhas na inicialização da API FastAPI;
-- ajustes na integração entre frontend e backend.
+- incompatibilidades entre interfaces e tipos (`Incident`, `Playbook` e serviços);
+- ajustes nas rotas do React Router e navegação da aplicação;
+- correções na comunicação entre o frontend (React) e o backend (FastAPI);
+- configuração e validação dos endpoints da API;
+- resolução de falhas na inicialização da API FastAPI;
+- correções em erros de build (`tsc` e `Vite`);
+- ajustes na configuração do deploy da aplicação no Vercel;
+- configuração das regras de roteamento (`rewrites`) para aplicações SPA;
+- validação da documentação automática da API (Swagger UI e ReDoc);
+- testes e validação dos endpoints públicos após a publicação da aplicação..
 
 Todos os prompts utilizados durante o desenvolvimento encontram-se registrados na pasta:
 
@@ -647,27 +674,36 @@ Todos os prompts utilizados durante o desenvolvimento encontram-se registrados n
 docs/prompts/
 ```
 
-Esses registros documentam a evolução incremental do projeto e evidenciam a utilização dos agentes de codificação ao longo da implementação.
+Esta pasta reúne o diário de desenvolvimento do projeto, organizado em **12 registros cronológicos**, cada um representando uma etapa da implementação.
+Os arquivos documentam as atividades realizadas em cada dia, incluindo planejamento, desenvolvimento, correção de erros, integração entre frontend e backend, testes, deploy e melhorias na documentação.
+Esses registros evidenciam a evolução incremental do projeto e demonstram como os agentes de IA foram utilizados ao longo do ciclo de desenvolvimento, apoiando a análise de problemas, a implementação de funcionalidades, a revisão de código e a tomada de decisões técnicas.
+
+---
 
 ---
 
 # ⚠️ Dificuldades Encontradas
 
-Durante o desenvolvimento do CyberInsight AI foram encontrados desafios técnicos relacionados à integração entre frontend, backend e às ferramentas utilizadas no processo de desenvolvimento assistido por Inteligência Artificial.
+Durante o desenvolvimento do **CyberInsight AI**, foram enfrentados diversos desafios técnicos relacionados à implementação da aplicação, integração entre frontend e backend, gerenciamento do código e publicação do sistema.
 
-Os principais desafios enfrentados foram:
+Os principais desafios incluíram:
 
 - conflitos entre importações e exportações de módulos TypeScript;
-- incompatibilidades entre componentes React durante refatorações;
-- erros de tipagem ocasionados pela evolução das interfaces da aplicação;
-- problemas de configuração do ambiente Python para execução do FastAPI;
-- dificuldades na integração entre frontend e backend durante os testes locais;
-- necessidade de reorganização das rotas da aplicação após alterações estruturais;
-- ajustes manuais para manter compatibilidade entre componentes reutilizáveis.
+- incompatibilidades entre interfaces e tipos utilizados pelos serviços da aplicação (`Incident`, `Playbook` e demais modelos);
+- erros de tipagem ocasionados pela evolução das interfaces e refatorações do projeto;
+- incompatibilidades entre componentes React durante a reorganização da interface;
+- ajustes nas rotas do React Router para funcionamento correto da navegação em ambiente local e após o deploy;
+- configuração do ambiente Python e da API FastAPI para execução local;
+- integração entre o frontend (React) e o backend (FastAPI), incluindo validação dos endpoints e comunicação entre os serviços;
+- correção de erros de compilação (`TypeScript` e `Vite`) identificados durante o processo de build;
+- configuração do deploy no Vercel, incluindo definição do *entrypoint* da API, regras de roteamento (*rewrites*) e compatibilidade entre aplicação SPA e backend;
+- validação da documentação automática da API (Swagger UI e ReDoc) e dos endpoints públicos após a publicação.
 
-Outro desafio importante foi manter a consistência do código gerado por diferentes agentes de codificação. Em alguns momentos, as sugestões apresentavam abordagens distintas para um mesmo problema, exigindo análise crítica antes da integração ao projeto.
+Outro desafio relevante foi manter a consistência do código gerado por diferentes agentes de Inteligência Artificial. Em diversos momentos, as sugestões apresentavam abordagens distintas para um mesmo problema, exigindo análise técnica, validação e adaptações antes da incorporação ao projeto.
 
-Além dos desafios técnicos, também foi necessário reorganizar parte da interface para torná-la mais próxima de dashboards utilizados em Centros de Operações de Segurança (SOC), priorizando usabilidade, clareza visual e distribuição adequada das informações.
+Também foi necessário reorganizar parte da interface para aproximá-la do padrão visual de dashboards utilizados em Centros de Operações de Segurança (SOC), priorizando usabilidade, clareza das informações, navegação intuitiva e uma melhor experiência para o usuário.
+
+Apesar dos desafios encontrados, todos os problemas considerados críticos foram solucionados, permitindo a entrega de uma aplicação funcional, documentada, integrada ao backend e publicada em ambiente de produção.
 
 ---
 
@@ -768,7 +804,7 @@ https://github.com/CamilaGois
 
 ## LinkedIn
 
-*www.linkedin.com/in/camilagoisj*
+www.linkedin.com/in/camilagoisj
 
 ---
 
