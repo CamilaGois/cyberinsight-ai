@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "projects": [
+    {
+      "name": "frontend", 
+    "directory": "frontend"
+    },
+    {
+      "name": "backend",
+      "directory": "backend"
+    }
+  ]
+}
