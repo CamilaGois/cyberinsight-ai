@@ -11,7 +11,8 @@
 ![ChatGPT Pro](https://img.shields.io/badge/ChatGPT-Pro-74AA9C?logo=openai&logoColor=white)
 ![Google Gemini](https://img.shields.io/badge/Google-Gemini-8E75FF?logo=google-gemini&logoColor=white)
 ![Continue](https://img.shields.io/badge/Continue-VS_Code-4F46E5)
-![Hugging%20Face](https://img.shields.io/badge/Hugging%20Face-Spaces-FFD21E?logo=huggingface&logoColor=black)
+![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?logo=vercel&logoColor=white)
+
 
 ---
 
@@ -53,10 +54,25 @@ A arquitetura foi planejada para permitir futura integração com modelos de IA 
 | 🌐 Aplicação Pública | https://cyberinsight-ai.vercel.app |
 | 📂 Repositório GitHub | https://github.com/CamilaGois/cyberinsight-ai |
 | 📑 ReDoc | https://cyberinsight-ai.vercel.app/redoc |
-| 🔐 API de Incidentes | https://cyberinsight-ai.vercel.app/api/incidents/ |
+| 🔐 API de Incidentes | https://cyberinsight-ai.vercel.app/docs |
 | 💻 Frontend Local | http://localhost:5173 |
 | ⚙️ Backend Local | http://127.0.0.1:8000 |
 
+
+## 🌐 Principais Rotas da Aplicação
+
+| Página | URL |
+|--------|-----|
+| 🏠 Dashboard | https://cyberinsight-ai.vercel.app |
+| 🔐 Login | https://cyberinsight-ai.vercel.app/login |
+| 🏡 Landing Page | https://cyberinsight-ai.vercel.app/landing |
+| 📥 Entrada de Logs | https://cyberinsight-ai.vercel.app/logs |
+| 📜 Histórico | https://cyberinsight-ai.vercel.app/historico |
+| 📋 Playbooks | https://cyberinsight-ai.vercel.app/playbook |
+| 🎯 IOC | https://cyberinsight-ai.vercel.app/ioc |
+| 📄 Swagger UI | https://cyberinsight-ai.vercel.app/docs |
+| 📘 ReDoc | https://cyberinsight-ai.vercel.app/redoc |
+| 🔗 API de Incidentes | https://cyberinsight-ai.vercel.app/docs |
 ---
 
 # 🖼️ Principais Telas
