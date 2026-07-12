@@ -3,8 +3,8 @@ import type { Incident } from "./incidentStorage";
 export function mockAnalysis(log: string): Incident {
   const text = log.toLowerCase();
 
-  let severity: Incident["severity"] = "BAIXA";
-  let status: Incident["status"] = "Novo";
+  let severity: Incident["severity"] = "Baixa";
+  const status: Incident["status"] = "Novo";
   let title = "Evento de Segurança";
 
   if (
@@ -13,24 +13,24 @@ export function mockAnalysis(log: string): Incident {
     text.includes("login failed")
   ) {
     title = "Possível Ataque de Força Bruta";
-    severity = "ALTA";
+    severity = "Alta";
   } else if (
     text.includes("scan") ||
     text.includes("nmap") ||
     text.includes("port")
   ) {
     title = "Possível Varredura de Rede";
-    severity = "MÉDIA";
+    severity = "Média";
   } else if (
     text.includes("malware") ||
     text.includes("ransomware")
   ) {
     title = "Possível Malware";
-    severity = "ALTA";
+    severity = "Alta";
   }
 
   return {
-    id: Date.now(),
+    id: Date.now().toString(),
     title,
     severity,
     status,
