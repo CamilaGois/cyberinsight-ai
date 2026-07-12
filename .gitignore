@@ -223,3 +223,15 @@ dist/
 .vite/
 .env
 .env.local
+
+# --- Ajustes específicos para o seu ambiente e avaliações ---
+
+# Descomentar e garantir o bloqueio da pasta do VS Code (evita enviar histórico de comandos/extensões)
+.vscode/
+
+# Arquivos de sistema do Windows (evita enviar miniaturas geradas na pasta de prints)
+Thumbs.db
+ehthumbs.db
+
+# Logs locais gerados por ferramentas de desenvolvimento
+*.log

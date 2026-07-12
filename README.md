@@ -1,350 +1,433 @@
-# cyberinsight-ai
-Plataforma de apoio a analistas SOC para análise de logs de segurança utilizando IA Generativa, MITRE ATT&CK e Playbooks automatizados.
+<p align="center">
+  <img src="docs/screenshots/banner-dashboard.png" width="100%" alt="CyberInsight AI Dashboard">
+</p>
 
-## Links do Projeto
 
-| Recurso | Link |
-|--------|------|
-| Endpoint público da aplicação | [Acessar CyberInsight AI](COLE_AQUI_O_LINK_DO_ENDPOINT) |
-| Repositório GitHub | [Ver repositório](https://github.com/CamilaGois/cyberinsight-ai) |
+# 🛡️ CyberInsight AI
 
-# CyberInsight AI
+> Plataforma de apoio a Analistas SOC para análise de incidentes de segurança, correlação de eventos e geração de respostas simuladas utilizando conceitos de Inteligência Artificial Generativa.
 
-## Visão Geral
-
-O **CyberInsight AI** é um protótipo de uma plataforma para apoio a analistas de um **Centro de Operações de Segurança (SOC - Security Operations Center)**. O sistema foi desenvolvido como parte da **Avaliação Intermediária da disciplina de IA Generativa**.
-
-## Objetivo 
-
-O objetivo do projeto é demonstrar como uma aplicação moderna pode auxiliar profissionais de Segurança da Informação na visualização, organização e gerenciamento de incidentes de segurança, preparando a estrutura para uma futura integração com modelos de Inteligência Artificial Generativa.
-
-Nesta etapa do projeto, conforme solicitado no enunciado da avaliação, **nenhum modelo de IA foi integrado**. Todas as respostas que seriam produzidas por IA são apresentadas por meio de dados simulados (mock/placeholder), permitindo validar a interface, a navegação e o fluxo da aplicação sem depender de um modelo de linguagem.
-
-O sistema foi desenvolvido utilizando um agente de codificação para acelerar o desenvolvimento da interface, da estrutura da aplicação e dos componentes, mantendo intervenção humana para revisão, correção de erros e tomada de decisões arquiteturais.
-
-## Problema
-
-Analistas de Segurança da Informação lidam diariamente com uma grande quantidade de alertas provenientes de diferentes ferramentas de monitoramento. A triagem manual desses incidentes pode ser lenta, repetitiva e suscetível a erros.
-
-O CyberInsight AI foi concebido para centralizar essas informações em uma única interface, permitindo o cadastro, consulta, organização e acompanhamento de incidentes. Em uma etapa futura, a plataforma poderá utilizar IA Generativa para classificar incidentes, resumir eventos, sugerir playbooks de resposta e apoiar a tomada de decisão do analista SOC.
-
-Nesta avaliação intermediária, o foco está exclusivamente na construção da interface, da navegação e da estrutura da aplicação, utilizando respostas simuladas para representar o comportamento esperado da futura integração com IA.
-**
-
-## Arquitetura da Aplicação
-
-O projeto foi estruturado utilizando uma arquitetura em camadas, visando facilitar a manutenção, a escalabilidade e a futura integração com modelos de Inteligência Artificial Generativa.
-
-### Frontend
-
-O frontend foi desenvolvido utilizando **React**, **Vite** e **TypeScript**.
-
-A escolha dessa stack foi motivada pelos seguintes fatores:
-
-* Desenvolvimento rápido utilizando Vite;
-* Componentização da interface com React;
-* Maior segurança e organização do código através do TypeScript;
-* Facilidade de integração futura com APIs REST.
-
-O frontend concentra toda a experiência do usuário, incluindo:
-
-* Landing Page;
-* Login;
-* Dashboard;
-* Menu lateral;
-* Upload de logs;
-* Histórico de incidentes;
-* Visualização de KPIs;
-* Tabelas de eventos;
-* Playbooks simulados;
-* Navegação entre telas.
-
-### Backend
-
-Nesta etapa, o backend foi planejado como parte da arquitetura futura, mas o foco da entrega está no frontend funcional com dados simulados.
-
-A escolha do FastAPI foi baseada em:
-
-* Alto desempenho;
-* Facilidade para criação de APIs REST;
-* Excelente documentação automática;
-* Integração simples com aplicações React;
-* Facilidade de integração futura com modelos de IA.
-
-Nesta etapa da avaliação, o backend tem como objetivo disponibilizar os dados necessários para a interface e preparar a aplicação para futuras funcionalidades inteligentes.
-
-### Banco de Dados
-
-O banco escolhido foi o **SQLite**, conforme recomendado no enunciado da avaliação.
-
-Sua utilização apresenta diversas vantagens:
-
-* Não necessita instalação de um servidor dedicado;
-* Armazena todos os dados em um único arquivo;
-* Facilidade de distribuição;
-* Excelente desempenho para aplicações locais e protótipos.
-
-### Arquitetura Geral
-
-O fluxo previsto para a aplicação é o seguinte:
-
-```text
-Usuário
-   │
-   ▼
-Frontend (React + Vite)
-   │
-   ▼
-Backend (FastAPI)
-   │
-   ▼
-SQLite
-```
-
-Em versões futuras, será adicionada uma camada de Inteligência Artificial entre o backend e os serviços responsáveis pela análise dos incidentes.
-
-### Organização do Projeto
-
-O projeto foi organizado para manter frontend e backend desacoplados, permitindo evolução independente de cada camada.
-
-Estrutura prevista:
-
-```text
-cyberinsight-ai/
-│
-├── frontend/
-│   ├── src/
-│   ├── public/
-│   └── package.json
-│
-├── backend/
-│   ├── app/
-│   ├── database/
-│   ├── routers/
-│   └── main.py
-│
-├── docs/
-│
-└── README.md
-```
-
-Essa organização facilita futuras integrações, testes, manutenção e expansão do sistema, além de seguir boas práticas adotadas em aplicações web modernas.
-
-## Funcionalidades Implementadas
-
-O CyberInsight AI foi desenvolvido como um protótipo funcional de uma plataforma de apoio a analistas de Segurança da Informação (SOC), permitindo simular o fluxo de gerenciamento de incidentes antes da integração de modelos de Inteligência Artificial.
-
-### Landing Page
-
-A aplicação possui uma página inicial responsável por apresentar o sistema e direcionar o usuário para as principais funcionalidades da plataforma.
-
-### Autenticação
-
-Foi implementada uma interface de login para simular o acesso ao sistema. Nesta etapa da avaliação, o processo de autenticação possui finalidade demonstrativa e não realiza validação contra um banco de dados.
-
-### Dashboard
-
-O Dashboard centraliza as principais informações da aplicação por meio de indicadores e cartões de resumo, permitindo ao usuário visualizar rapidamente a situação geral dos incidentes cadastrados.
-
-Entre os indicadores apresentados destacam-se:
-
-* Quantidade total de incidentes;
-* Incidentes críticos;
-* Incidentes em análise;
-* Incidentes resolvidos.
-
-### Gerenciamento de Incidentes
-
-A aplicação permite visualizar incidentes simulados contendo informações como:
-
-* título;
-* severidade;
-* status;
-* detalhes do incidente.
-
-Esses dados são utilizados para demonstrar o fluxo esperado da futura integração com mecanismos inteligentes de análise.
-
-### Pesquisa e Filtros
-
-Foram implementados mecanismos de pesquisa e filtragem para facilitar a localização de incidentes específicos, simulando funcionalidades normalmente encontradas em plataformas SOC.
-
-### Histórico
-
-A aplicação mantém um histórico dos incidentes cadastrados, permitindo acompanhar a evolução das ocorrências durante a utilização do sistema.
-
-### Playbooks (Simulados)
-
-O sistema apresenta playbooks de resposta simulados para diferentes níveis de severidade.
-
-Nesta etapa, esses playbooks são gerados a partir de regras pré-definidas e têm como objetivo representar como a Inteligência Artificial poderá sugerir procedimentos de resposta em versões futuras.
-
-### Respostas Simuladas da IA
-
-Em conformidade com o enunciado da avaliação, nenhuma IA Generativa foi integrada ao sistema.
-
-As funcionalidades que futuramente dependerão de um modelo de linguagem utilizam atualmente respostas simuladas (mock), demonstrando o comportamento esperado da aplicação sem depender de serviços externos.
-
-### Interface Responsiva
-
-Os componentes foram organizados de forma modular visando facilitar manutenção, reutilização de código e futura expansão da plataforma.
-
-## Processo de Desenvolvimento com Agente de Codificação
-
-O desenvolvimento do CyberInsight AI foi realizado utilizando agentes de codificação com o objetivo de acelerar a construção da aplicação e explorar boas práticas de desenvolvimento assistido por Inteligência Artificial. O desenvolvimento foi realizado principalmente com o OpenAI Codex, utilizado para gerar componentes, páginas e estruturas da aplicação. O Visual Studio Code foi utilizado como ambiente de desenvolvimento para edição, testes e depuração. O ChatGPT foi empregado como ferramenta de apoio ao planejamento da arquitetura, revisão técnica, resolução de problemas encontrados durante a implementação e elaboração da documentação do projeto.
-
-Durante o projeto, os agentes foram utilizados principalmente para:
-
-* geração de componentes React;
-* estruturação das páginas da aplicação;
-* criação de rotas;
-* organização da arquitetura do projeto;
-* implementação de componentes reutilizáveis;
-* revisão e correção de código;
-* apoio na documentação do projeto.
-
-O desenvolvimento ocorreu de forma incremental. Em vez de solicitar toda a aplicação em um único prompt, cada funcionalidade foi construída, testada e refinada individualmente.
-
-### Ferramentas Utilizadas 
-
-| Ferramenta | Finalidade no Projeto |
-|------------|-----------------------|
-| OpenAI Codex | Geração de código, criação de componentes, páginas e apoio no desenvolvimento da aplicação. |
-| Visual Studio Code | Ambiente principal de desenvolvimento, edição de código, testes, depuração e organização do projeto. |
-| ChatGPT | Planejamento da arquitetura, revisão técnica, resolução de erros, apoio na documentação e elaboração do README. |
-| Git | Controle de versão durante o desenvolvimento. |
-| GitHub | Hospedagem do repositório, versionamento e compartilhamento do código-fonte. |
-| React | Desenvolvimento da interface da aplicação (Frontend). |
-| Vite | Ferramenta de build e servidor de desenvolvimento do Frontend. |
-| TypeScript | Tipagem estática e maior organização do código. |
-| FastAPI | Arquitetura planejada para disponibilizar APIs REST e integrar futuramente os serviços de IA. |
-| SQLite | Banco de dados local planejado para armazenamento dos dados da aplicação. |
-
-
-### Exemplos de Prompts Utilizados
-
-Alguns exemplos de solicitações feitas ao agente de codificação incluem:
-
-* Criar um Dashboard moderno para um sistema SOC utilizando React e TypeScript.
-* Desenvolver um componente reutilizável para exibição de incidentes de segurança.
-* Criar uma tela de histórico de incidentes com filtros e pesquisa.
-* Implementar uma interface de upload de logs com dados simulados.
-* Organizar a estrutura do projeto utilizando React + Vite.
-
-Esses prompts foram refinados ao longo do desenvolvimento conforme novas necessidades surgiam e conforme eram identificados pontos de melhoria na interface.
-
-## O que Funcionou Bem
-
-O uso do agente de codificação apresentou resultados positivos principalmente na geração da estrutura inicial da aplicação.
-
-Os principais benefícios observados foram:
-
-* rápida criação da estrutura do projeto;
-* geração de componentes React reutilizáveis;
-* organização inicial das páginas;
-* aceleração da implementação da interface;
-* auxílio na escrita e revisão de trechos de código;
-* suporte na documentação do projeto.
-
-A utilização do agente reduziu significativamente o tempo necessário para implementar telas e componentes repetitivos, permitindo concentrar mais esforço na organização da arquitetura e na validação das funcionalidades.
-
-## Limitações Encontradas
-
-Durante o desenvolvimento também foram identificadas limitações importantes.
-
-Em algumas situações, o agente gerou alterações que provocaram conflitos entre arquivos ou exigiram intervenção manual para correção.
-
-Entre as principais dificuldades encontradas destacam-se:
-
-* conflitos entre importações e exportações de módulos;
-* erros de compilação após alterações simultâneas em múltiplos arquivos;
-* necessidade de revisar manualmente componentes antes da integração;
-* ajustes manuais para manter consistência entre as rotas da aplicação;
-* necessidade de reorganizar parte da arquitetura durante a evolução do projeto.
-
-Essas experiências demonstraram que, embora os agentes de codificação acelerem o desenvolvimento, a supervisão humana continua sendo essencial para validar decisões arquiteturais, testar a aplicação e corrigir inconsistências.
-
-## Lições Aprendidas
-
-Ao longo do desenvolvimento ficou evidente que os melhores resultados foram obtidos quando o projeto foi construído de forma incremental.
-
-Solicitações menores, específicas e acompanhadas de testes frequentes produziram resultados mais consistentes do que grandes alterações realizadas de uma única vez.
-
-Essa experiência reforçou a importância de utilizar agentes de codificação como ferramentas de apoio ao desenvolvimento, mantendo o desenvolvedor responsável pelas decisões técnicas, validação das funcionalidades e integração entre os componentes da aplicação.
-
-### Como Executar o Projeto
-
-### Pré-requisitos
-
-Antes de executar o projeto, é necessário possuir instalado:
-
-* Node.js (versão 20 ou superior)
-* npm
-* Python 3.11 ou superior (para o backend)
-* Git
+![OpenAI Codex](https://img.shields.io/badge/OpenAI-Codex-10A37F)
+![ChatGPT Pro](https://img.shields.io/badge/ChatGPT-Pro-74AA9C?logo=openai&logoColor=white)
+![Google Gemini](https://img.shields.io/badge/Google-Gemini-8E75FF?logo=google-gemini&logoColor=white)
+![Continue](https://img.shields.io/badge/Continue-VS_Code-4F46E5)
+![Hugging%20Face](https://img.shields.io/badge/Hugging%20Face-Spaces-FFD21E?logo=huggingface&logoColor=black)
 
 ---
 
-### Clonando o Repositório
+## 📖 Sobre o Projeto
+
+O **CyberInsight AI** é um protótipo de uma plataforma para apoio a Analistas de Segurança (SOC – Security Operations Center), desenvolvido como parte da **Avaliação Intermediária da disciplina de IA Generativa**.
+
+A aplicação simula o fluxo de análise de incidentes cibernéticos por meio de uma interface moderna, permitindo visualizar indicadores operacionais, importar logs, consultar incidentes, acessar playbooks e acompanhar eventos de segurança.
+
+Nesta etapa do projeto **não foi integrado nenhum modelo de Inteligência Artificial**. Todas as funcionalidades relacionadas à IA utilizam respostas simuladas (*mock*), conforme previsto no edital da avaliação.
+
+A arquitetura foi planejada para permitir futura integração com modelos de IA Generativa, mantendo separação entre frontend, backend e camada de serviços inteligentes.
+
+---
+
+# 📑 Índice
+
+- [Objetivo](#-objetivo)
+- [Problema](#-problema)
+- [Funcionalidades](#-funcionalidades)
+- [Arquitetura da Aplicação](#-arquitetura-da-aplicação)
+- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Como Executar](#-como-executar)
+- [API REST](#-api-rest)
+- [Uso de Agentes de Codificação](#-uso-de-agentes-de-codificação)
+- [Processo de Desenvolvimento](#-processo-de-desenvolvimento)
+- [Dificuldades Encontradas](#-dificuldades-encontradas)
+- [Lições Aprendidas](#-lições-aprendidas)
+- [Trabalhos Futuros](#-trabalhos-futuros)
+- [Autor](#-autor)
+
+---
+
+# 🚀 Demonstração
+
+| Recurso | Link |
+|---------|------|
+| 🌐 Endpoint Público | **(Adicionar após o deploy)** |
+| 📂 Repositório GitHub | https://github.com/CamilaGois/cyberinsight-ai |
+| 📑 Swagger | http://127.0.0.1:8000/docs |
+|    API de Incidentes |  http://127.0.0.1:8000/api/incidents/
+|    Frontend Local | http://localhost:5173 |
+
+---
+
+# 🖼️ Principais Telas
+
+> As imagens abaixo representam a interface desenvolvida durante esta etapa do projeto.
+
+
+## Login 
+
+<p align="center">
+<img src="docs/screenshots/login.png" width="900">
+</p>
+
+## Landing Page 
+
+<p align="center">
+<img src="docs/screenshots/landing.png" width="900">
+</p>
+
+## Dashboard SOC
+
+<p align="center">
+<img src="docs/screenshots/dashboard-atualizado.png" width="900">
+</p>
+
+---
+
+## Entrada de Logs
+
+<p align="center">
+<img src="docs/screenshots/upload-logs.png" width="900">
+</p>
+
+---
+
+## Histórico
+
+<p align="center">
+<img src="docs/screenshots/history.png" width="900">
+</p>
+
+---
+
+## Playbooks
+
+<p align="center">
+<img src="docs/screenshots/playbooks-soc.png" width="900">
+</p>
+
+---
+
+# 🎯 Objetivo
+
+O objetivo do CyberInsight AI é fornecer uma plataforma de apoio à operação de um Centro de Operações de Segurança (SOC), centralizando informações sobre incidentes de segurança e preparando a arquitetura para futura integração com modelos de Inteligência Artificial Generativa.
+
+O sistema foi desenvolvido para demonstrar como uma interface moderna pode auxiliar analistas de segurança durante o processo de triagem, investigação e resposta a incidentes, reduzindo o tempo necessário para localizar informações relevantes e apoiar a tomada de decisão.
+
+Embora esta versão utilize dados simulados (*mock*), toda a estrutura foi planejada para integração futura com serviços inteligentes capazes de:
+
+- classificar incidentes automaticamente;
+- resumir logs de segurança;
+- sugerir procedimentos de resposta;
+- gerar playbooks automaticamente;
+- mapear eventos ao framework MITRE ATT&CK.
+
+---
+
+# ⚠ Problema
+
+Analistas SOC lidam diariamente com grandes volumes de alertas provenientes de diferentes ferramentas de monitoramento, como SIEM, EDR, IDS e Firewalls.
+
+Grande parte do tempo operacional é consumida na análise manual desses eventos, tornando o processo repetitivo e sujeito a falhas humanas.
+
+O CyberInsight AI foi concebido para centralizar essas informações em uma única plataforma, permitindo organizar incidentes, acompanhar indicadores operacionais e preparar a aplicação para futuras funcionalidades baseadas em Inteligência Artificial Generativa.
+
+Nesta entrega, conforme previsto no edital da disciplina, as análises produzidas pela IA são simuladas, permitindo validar toda a navegação e experiência do usuário sem utilizar modelos reais de linguagem.
+
+---
+
+# 🏗️ Arquitetura da Aplicação
+
+O CyberInsight AI foi desenvolvido utilizando uma arquitetura em camadas, permitindo separação entre interface, regras de negócio, API e futura camada de Inteligência Artificial.
+
+```
+                        Usuário
+                           │
+                           ▼
+              Frontend (React + TypeScript)
+                           │
+                           ▼
+                 Backend (FastAPI REST)
+                           │
+                           ▼
+                 Banco de Dados (SQLite)
+                           │
+                           ▼
+      IA Generativa (Integração Futura)
+```
+
+A separação das camadas facilita:
+
+- manutenção do código;
+- reutilização de componentes;
+- escalabilidade da aplicação;
+- integração futura com modelos de IA;
+- testes independentes entre frontend e backend.
+
+---
+
+## Frontend
+
+O frontend concentra toda a experiência do usuário da aplicação.
+
+Principais responsabilidades:
+
+- Dashboard SOC;
+- Entrada de Logs;
+- Histórico de Incidentes;
+- Playbooks;
+- KPIs;
+- Navegação;
+- Interface Responsiva.
+
+---
+
+## Backend
+
+O backend foi desenvolvido utilizando FastAPI para disponibilizar APIs REST responsáveis pela comunicação com o frontend.
+
+Nesta etapa da avaliação, a API fornece os dados necessários para demonstração das funcionalidades implementadas.
+
+---
+
+## Banco de Dados
+
+Foi adotado SQLite como banco de dados local devido à sua simplicidade, facilidade de distribuição e baixa necessidade de configuração.
+
+Essa escolha permite que o projeto seja executado rapidamente em ambiente acadêmico sem dependências externas.
+
+---
+
+# 🚀 Funcionalidades
+
+O CyberInsight AI disponibiliza um conjunto de funcionalidades voltadas ao apoio operacional de um Centro de Operações de Segurança (SOC).
+
+## Funcionalidades Implementadas
+
+- ✅ Landing Page
+- ✅ Login (simulado)
+- ✅ Dashboard SOC
+- ✅ Entrada de Logs
+- ✅ Histórico de Incidentes
+- ✅ Playbooks
+- ✅ Pesquisa de Incidentes
+- ✅ Filtros por Severidade
+- ✅ KPIs Operacionais
+- ✅ Alertas Simulados
+- ✅ API REST
+- ✅ Swagger
+- ✅ Dados Simulados (Mock IA)
+
+---
+
+## Dashboard
+
+O Dashboard centraliza as principais informações operacionais da plataforma.
+
+Entre os indicadores disponíveis estão:
+
+- Incidentes Totais;
+- Incidentes Críticos;
+- Incidentes em Investigação;
+- Incidentes Resolvidos;
+- Distribuição por Severidade;
+- Distribuição por Tipo de Incidente;
+- Linha do Tempo;
+- Alertas Ativos.
+
+---
+
+## Entrada de Logs
+
+Permite importar arquivos contendo eventos de segurança.
+
+Os dados enviados são utilizados para demonstrar o fluxo esperado de análise da aplicação.
+
+Nesta versão, a classificação dos incidentes utiliza dados simulados.
+
+---
+
+## Histórico
+
+Exibe os incidentes registrados durante a utilização da aplicação, permitindo consultas e acompanhamento das ocorrências.
+
+---
+
+## Playbooks
+
+Disponibiliza procedimentos simulados para resposta a incidentes de segurança.
+
+Em versões futuras, esses playbooks serão gerados automaticamente por Inteligência Artificial.
+
+---
+
+# 💻 Tecnologias Utilizadas
+
+## Linguagens
+
+- TypeScript
+- Python
+- HTML5
+- CSS3
+
+---
+
+## Frontend
+
+| Tecnologia | Finalidade |
+|------------|------------|
+| React | Construção da interface |
+| Vite | Ambiente de desenvolvimento |
+| TypeScript | Tipagem estática |
+| React Router | Navegação entre páginas |
+| Recharts | Visualização de gráficos |
+| Lucide React | Biblioteca de ícones |
+
+---
+
+## Backend
+
+| Tecnologia | Finalidade |
+|------------|------------|
+| FastAPI | API REST |
+| Uvicorn | Servidor ASGI |
+| SQLite | Banco de Dados |
+
+---
+
+## Ferramentas de Desenvolvimento
+
+| Ferramenta | Utilização |
+|------------|------------|
+| Git | Controle de versão |
+| GitHub | Hospedagem do repositório |
+| Visual Studio Code | Ambiente de desenvolvimento |
+| Continue (VS Code Extension) | Assistente de programação integrado |
+| ChatGPT (Plano Pro) | Planejamento, revisão técnica, documentação e apoio ao desenvolvimento |
+| OpenAI Codex | Geração e refatoração de código |
+| Google Gemini | Apoio na validação de soluções e comparação de abordagens |
+
+---
+
+## Deploy
+
+| Plataforma | Finalidade |
+|------------|------------|
+| Hugging Face Spaces | Hospedagem do endpoint público da aplicação |
+
+---
+
+## Frameworks e Referências
+
+- MITRE ATT&CK
+- REST API
+- Componentização React
+- Arquitetura em Camadas
+- IA Generativa (Mock)
+
+# 📁 Estrutura do Projeto
+
+A organização do repositório foi planejada para manter a separação entre frontend, backend e documentação técnica, facilitando a manutenção, a evolução do sistema e futuras integrações com serviços de Inteligência Artificial.
+
+```text
+cyberinsight-ai-main/
+│
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   ├── models/
+│   │   ├── services/
+│   │   ├── schemas/
+│   │   ├── core/
+│   │   └── main.py
+│   │
+│   └── requirements.txt
+│
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   ├── styles/
+│   │   └── App.tsx
+│   │
+│   └── package.json
+│
+├── docs/
+│   ├── prompts/
+│   ├── screenshots/
+│   ├── arquitetura.md
+│   ├── decisoes.md
+│   ├── problemas-encontrados.md
+│   └── roadmap.md
+│
+├── .env.example
+├── README.md
+└── LICENSE
+```
+
+Cada diretório possui uma responsabilidade específica, permitindo desacoplamento entre interface, regras de negócio, API e documentação do projeto.
+
+---
+
+# ⚙️ Como Executar o Projeto
+
+## Pré-requisitos
+
+Antes de executar a aplicação, é necessário possuir instalado:
+
+- Node.js 20 ou superior
+- npm
+- Python 3.11 ou superior
+- Git
+
+---
+
+## 1. Clonar o repositório
 
 ```bash
-git clone https://github.com/CamilaGois/cyberinsight-ai
+git clone https://github.com/CamilaGois/cyberinsight-ai.git
 
 cd cyberinsight-ai
 ```
 
 ---
 
-## Executando o Frontend
-
-Acesse a pasta do frontend:
+## 2. Executar o Frontend
 
 ```bash
 cd frontend
-```
 
-Instale as dependências:
-
-```bash
 npm install
-```
 
-Execute a aplicação:
-
-```bash
 npm run dev
 ```
 
-O frontend ficará disponível em:
+A aplicação estará disponível em:
 
-```text
+```
 http://localhost:5173
 ```
 
 ---
 
-## Executando o Backend
-
-Acesse a pasta do backend:
+## 3. Executar o Backend
 
 ```bash
 cd backend
-```
 
-Crie um ambiente virtual:
-
-```bash
 python -m venv .venv
 ```
 
-Ative o ambiente virtual.
-
-Windows:
+### Windows
 
 ```bash
 .venv\Scripts\activate
 ```
 
-Linux/macOS:
+### Linux / macOS
 
 ```bash
 source .venv/bin/activate
@@ -356,260 +439,442 @@ Instale as dependências:
 pip install -r requirements.txt
 ```
 
-Execute o servidor:
+Execute a API:
 
 ```bash
-uvicorn app.main:app --reload
+set PYTHONPATH=. && python -m uvicorn backend.app.main:app --reload
 ```
 
-A API ficará disponível em:
+ou
+
+```bash
+uvicorn backend.app.main:app --reload
+```
+
+A API estará disponível em:
+
+```
+http://127.0.0.1:8000
+```
+
+Documentação automática:
+
+Swagger
+
+```
+http://127.0.0.1:8000/docs
+```
+
+
+```
+Frontend Local 
+
+http://localhost:5173
+
+---
+
+# 🔌 API REST
+
+O backend disponibiliza uma API REST desenvolvida em FastAPI responsável pela comunicação entre o frontend e os serviços da aplicação.
+
+## Endpoints disponíveis
+
+| Método | Endpoint | Descrição |
+|---------|----------|-----------|
+| GET | `/api/incidents/` | Lista os incidentes cadastrados |
+| POST | `/api/logs/import` | Importa arquivos de log para análise |
+| GET | `/api/playbooks/` | Retorna os playbooks disponíveis |
+
+---
+
+## Documentação da API
+
+A FastAPI gera automaticamente a documentação dos endpoints.
+
+| Interface | URL |
+|-----------|-----|
+| Swagger UI | `/docs` |
+| localhost | `/incidents` |
+
+---
+
+## Endpoint Público
+
+A aplicação possui implantação pública utilizando **Hugging Face Spaces**, permitindo a demonstração das funcionalidades sem necessidade de instalação local.
+
+> **URL:** *(Inserir o link do endpoint público após o deploy.)*
+
+---
+
+## Fluxo da Comunicação
 
 ```text
-http://localhost:8000
+Frontend React
+      │
+      ▼
+ FastAPI REST
+      │
+      ▼
+ Processamento
+      │
+      ▼
+Resposta JSON
+      │
+      ▼
+Dashboard
 ```
 
-A documentação automática poderá ser acessada em:
+A comunicação entre frontend e backend é realizada utilizando requisições HTTP no formato JSON, facilitando futuras integrações com serviços de Inteligência Artificial e outros sistemas externos.
+
+---
+
+# 🤖 Uso de Agentes de Codificação
+
+O desenvolvimento do **CyberInsight AI** foi realizado com o apoio de agentes de codificação e assistentes baseados em Inteligência Artificial, utilizados para acelerar tarefas de implementação, documentação, revisão técnica e resolução de problemas.
+
+Os agentes foram empregados como ferramentas de apoio ao desenvolvimento, enquanto todas as decisões relacionadas à arquitetura, validação das funcionalidades, organização do projeto e testes permaneceram sob responsabilidade da autora.
+
+Durante o desenvolvimento, nenhuma alteração gerada por IA foi incorporada sem análise prévia, revisão manual e validação em ambiente local.
+
+---
+
+## Ferramentas Utilizadas
+
+| Ferramenta | Finalidade |
+|------------|------------|
+| **OpenAI Codex** | Geração e refatoração de código, criação de componentes React, apoio na implementação do frontend e backend. |
+| **ChatGPT (Plano Pro)** | Planejamento da arquitetura, revisão técnica, documentação, análise de erros, elaboração do README e apoio na resolução de problemas. |
+| **Google Gemini** | Comparação de abordagens, validação de soluções técnicas e pesquisa complementar. |
+| **Continue (VS Code Extension)** | Assistente de programação integrado ao Visual Studio Code para geração incremental de código. |
+| **Hugging Face Spaces** | Hospedagem do endpoint público da aplicação para demonstração do projeto. |
+
+---
+
+# 🧠 Metodologia de Desenvolvimento com IA
+
+O desenvolvimento seguiu uma abordagem incremental baseada em pequenas entregas.
+
+Cada funcionalidade foi construída individualmente, revisada, testada e somente então integrada ao restante da aplicação.
+
+O fluxo adotado durante o desenvolvimento foi:
 
 ```text
-http://localhost:8000/docs
+Planejamento
+      │
+      ▼
+Prompt para o agente
+      │
+      ▼
+Geração do código
+      │
+      ▼
+Revisão Manual
+      │
+      ▼
+Correção de inconsistências
+      │
+      ▼
+Testes Locais
+      │
+      ▼
+Integração ao Projeto
+      │
+      ▼
+Commit no Git
 ```
 
----
+Essa estratégia reduziu conflitos entre arquivos, facilitou a identificação de erros e permitiu maior controle sobre a evolução da aplicação.
 
-## Banco de Dados
+Os agentes foram utilizados principalmente para:
 
-O projeto foi planejado para utilizar SQLite como banco de dados local.
+- geração de componentes React;
+- organização da arquitetura do projeto;
+- implementação de páginas;
+- criação de APIs;
+- revisão de código;
+- documentação técnica;
+- auxílio na depuração de erros;
+- refatoração de componentes.
 
-Toda a persistência da aplicação será realizada por meio de um único arquivo de banco de dados, simplificando a instalação e a distribuição do sistema.
-
----
-
-## Fluxo da Aplicação
-
-O funcionamento esperado da aplicação é:
-
-1. O usuário acessa a Landing Page.
-2. Realiza o login na plataforma.
-3. Visualiza o Dashboard com os principais indicadores.
-4. Consulta o histórico de incidentes.
-5. Realiza upload de arquivos de log.
-6. Visualiza incidentes simulados.
-7. Solicita uma análise.
-8. O sistema apresenta uma resposta simulada (mock), representando a futura integração com Inteligência Artificial.
+Toda implementação passou por validação manual antes de ser incorporada ao projeto.
 
 ---
 
-## Tecnologias Utilizadas
+# 💬 Exemplos de Prompts Utilizados
 
-### Frontend
+Durante o desenvolvimento foram utilizados diversos prompts específicos para orientar os agentes de codificação.
 
-* React
-* Vite
-* TypeScript
-* React Router
+Alguns exemplos incluem:
+
+### Interface
+
+- Criar um Dashboard para um Centro de Operações de Segurança (SOC) utilizando React e TypeScript.
+- Desenvolver uma interface inspirada em plataformas SIEM, mantendo layout responsivo.
+- Construir componentes reutilizáveis para exibição de KPIs e incidentes.
+
+---
 
 ### Backend
 
-* FastAPI
-* Python
-
-### Banco de Dados
-
-* SQLite
-
-### Ferramentas
-
-* Git
-* GitHub
-* Agente de Codificação (OpenAI Codex)
-* ChatGPT (planejamento, revisão e documentação)
-
-## Decisões de Design
-
-Durante o desenvolvimento do CyberInsight AI, foram tomadas decisões de arquitetura e interface visando construir uma aplicação organizada, escalável e preparada para futuras integrações com Inteligência Artificial Generativa.
-
-### Escolha do Problema
-
-O problema escolhido foi o desenvolvimento de uma plataforma de apoio a analistas de um Centro de Operações de Segurança (SOC), permitindo o gerenciamento e acompanhamento de incidentes de segurança.
-
-Essa escolha foi motivada pela relevância da área de Segurança da Informação e pelo potencial de utilização futura de modelos de IA para automatizar tarefas como classificação de incidentes, geração de playbooks, análise de logs e apoio à tomada de decisão.
-
-### Arquitetura
-
-Foi adotada uma arquitetura separando frontend e backend.
-
-Essa organização facilita:
-
-* manutenção da aplicação;
-* reutilização de componentes;
-* escalabilidade do projeto;
-* futura integração com APIs de Inteligência Artificial.
-
-O frontend foi desenvolvido utilizando React + Vite + TypeScript, enquanto o backend foi planejado utilizando FastAPI com persistência em SQLite.
-
-### Componentização
-
-A interface foi organizada em componentes reutilizáveis, reduzindo duplicação de código e facilitando futuras evoluções da aplicação.
-
-Entre os principais componentes destacam-se:
-
-* Sidebar;
-* Dashboard;
-* Cards de indicadores (KPIs);
-* Cartões de incidentes;
-* Modal de análise;
-* Componentes de navegação.
-
-### Interface do Usuário
-
-O layout foi planejado para proporcionar uma experiência semelhante à encontrada em plataformas profissionais de monitoramento de segurança.
-
-As principais decisões de interface incluem:
-
-* menu lateral para navegação entre módulos;
-* dashboard centralizado com indicadores;
-* filtros para pesquisa de incidentes;
-* organização visual baseada em cartões (cards);
-* separação clara entre informações operacionais e analíticas.
-
-### Uso de Dados Simulados
-
-Conforme solicitado no enunciado da avaliação, as funcionalidades que dependeriam de Inteligência Artificial utilizam dados simulados (mock).
-
-Essa abordagem permitiu validar toda a navegação e os fluxos da aplicação sem integrar um modelo de linguagem nesta etapa do projeto.
-
-### Evolução Futura
-
-A arquitetura foi planejada para permitir que futuras versões da aplicação integrem modelos de IA Generativa sem necessidade de reestruturação significativa.
-
-Entre as funcionalidades previstas para versões futuras estão:
-
-* classificação automática de incidentes;
-* geração inteligente de playbooks;
-* resumo automático de logs;
-* análise contextual de eventos de segurança;
-* recomendações de resposta baseadas em Inteligência Artificial.
-
-Essa estratégia permitiu manter o foco da avaliação na construção da interface e da estrutura da aplicação, deixando a camada de IA preparada para uma etapa posterior do projeto.
-
-
-## Dificuldades Encontradas e Lições Aprendidas
-
-O desenvolvimento do CyberInsight AI demonstrou que agentes de codificação podem acelerar significativamente a implementação de uma aplicação, porém também evidenciou a importância da supervisão humana durante todo o processo.
-
-Ao longo do projeto foram identificados desafios técnicos e situações que exigiram análise, testes e correções manuais.
-
-### Principais Dificuldades
-
-Durante a implementação foram observados os seguintes problemas:
-
-* conflitos entre importações (`import`) e exportações (`export`) de módulos TypeScript;
-* erros de compilação ocasionados por alterações simultâneas em diferentes arquivos;
-* telas em branco causadas por inconsistências entre componentes e rotas da aplicação;
-* necessidade de revisar manualmente componentes gerados pelo agente antes de integrá-los ao restante do sistema;
-* ajustes na organização das rotas para manter a navegação consistente.
-
-Esses problemas reforçaram a importância de validar continuamente a aplicação após cada alteração realizada.
-
-### Estratégia Adotada
-
-Inicialmente foram realizadas alterações em vários componentes simultaneamente, o que dificultou a identificação da origem de alguns erros.
-
-Após essa experiência, o desenvolvimento passou a seguir uma abordagem incremental:
-
-1. Planejamento da funcionalidade.
-2. Geração do código utilizando o agente de codificação.
-3. Testes locais da funcionalidade.
-4. Correções manuais quando necessário.
-5. Registro das alterações no repositório Git.
-6. Continuação para a próxima funcionalidade somente após estabilização da etapa anterior.
-
-Essa estratégia reduziu significativamente a ocorrência de novos erros e facilitou a manutenção da aplicação.
-
-### Papel da Supervisão Humana
-
-Embora o agente de codificação tenha acelerado a criação de componentes e estruturas da aplicação, diversas decisões permaneceram sob responsabilidade do desenvolvedor.
-
-Entre elas destacam-se:
-
-* definição da arquitetura do sistema;
-* validação da consistência entre os componentes;
-* identificação e correção de erros de integração;
-* organização da estrutura do projeto;
-* elaboração da documentação técnica.
-
-Essa experiência demonstrou que agentes de codificação atuam como ferramentas de apoio ao desenvolvimento, mas não substituem a necessidade de revisão técnica e tomada de decisão por parte do desenvolvedor.
-
-### Lições Aprendidas
-
-Ao final desta etapa foi possível identificar alguns fatores que contribuíram para um desenvolvimento mais eficiente:
-
-* dividir funcionalidades complexas em pequenas etapas;
-* utilizar prompts específicos e objetivos;
-* testar frequentemente a aplicação durante o desenvolvimento;
-* documentar decisões técnicas ao longo do projeto;
-* manter o repositório organizado com commits frequentes;
-* revisar cuidadosamente o código gerado antes de integrá-lo ao projeto.
-
-Essas práticas contribuíram para melhorar a qualidade do código produzido e reduzir o retrabalho durante a implementação.
-
-
-## Conclusão e Trabalhos Futuros
-
-O **CyberInsight AI** foi desenvolvido como um protótipo funcional para apoiar analistas de um Centro de Operações de Segurança (SOC), com foco na organização da interface, navegação e estrutura da aplicação.
-
-Durante esta etapa do projeto, foram implementadas as principais telas e componentes necessários para simular o fluxo de gerenciamento de incidentes de segurança. Em conformidade com os requisitos da avaliação, as funcionalidades que futuramente utilizarão Inteligência Artificial foram representadas por dados simulados (mock), permitindo validar a experiência do usuário sem integrar modelos de IA nesta fase.
-
-O desenvolvimento utilizando agentes de codificação demonstrou ganhos significativos de produtividade na criação de componentes, organização da interface e geração da estrutura inicial do projeto. Entretanto, também evidenciou que a revisão humana continua sendo indispensável para validar decisões técnicas, corrigir inconsistências e garantir a qualidade do software.
-
-Como evolução natural do projeto, estão previstas as seguintes funcionalidades:
-
-* integração de um modelo de IA Generativa para análise automática de incidentes;
-* geração inteligente de playbooks de resposta;
-* classificação automática de alertas por nível de criticidade;
-* análise contextual de arquivos de log;
-* geração de resumos técnicos para apoio aos analistas SOC;
-* autenticação completa de usuários;
-* persistência de dados em banco SQLite por meio de uma API desenvolvida com FastAPI;
-* implantação da aplicação em ambiente de nuvem para uso colaborativo.
-
-O CyberInsight AI foi concebido para servir como base para essas evoluções, mantendo uma arquitetura modular e preparada para futuras integrações. Dessa forma, o projeto atende ao objetivo desta avaliação ao apresentar uma aplicação funcional, organizada e preparada para incorporar recursos de Inteligência Artificial em etapas posteriores.
+- Implementar uma API REST utilizando FastAPI.
+- Criar endpoints para gerenciamento de incidentes e playbooks.
+- Organizar o backend seguindo arquitetura em camadas.
 
 ---
 
-## Autor
+### Documentação
 
-**Camila Gois de Jesus**
-
-Engenheira de Computação, com especialização em Redes de Computadores e formação complementar em Cibersegurança. O desenvolvimento deste projeto fez parte da Avaliação Intermediária da disciplina de IA Generativa, utilizando agentes de codificação para apoiar a implementação da aplicação e documentando, de forma crítica, os resultados obtidos durante o processo.
+- Elaborar documentação técnica utilizando Markdown.
+- Organizar o README seguindo boas práticas de projetos Open Source.
+- Documentar decisões arquiteturais e limitações do projeto.
 
 ---
 
-## Agradecimentos
+### Correção de Problemas
 
-Agradeço aos professores da disciplina pela proposta da atividade, que proporcionou uma experiência prática no uso de agentes de codificação aplicados ao desenvolvimento de software. A avaliação permitiu compreender tanto os benefícios quanto as limitações dessas ferramentas, reforçando a importância da supervisão humana, da validação contínua e da documentação técnica ao longo do ciclo de desenvolvimento.
+Os agentes também auxiliaram na identificação e correção de situações como:
 
-## Documentação Complementar
+- conflitos entre importações e exportações;
+- erros de tipagem em TypeScript;
+- inconsistências em rotas React;
+- problemas de configuração do ambiente Python;
+- falhas na inicialização da API FastAPI;
+- ajustes na integração entre frontend e backend.
 
-Além deste README, o projeto possui uma pasta `docs/prompts/`, separados por dia, com materiais de apoio ao desenvolvimento, evidências do uso de agentes de codificação, registros de decisões técnicas e capturas de tela da aplicação, para evidenciar o uso incremental do agente de codificação.
+Todos os prompts utilizados durante o desenvolvimento encontram-se registrados na pasta:
+
+```text
+docs/prompts/
+```
+
+Esses registros documentam a evolução incremental do projeto e evidenciam a utilização dos agentes de codificação ao longo da implementação.
+
+---
+
+# ⚠️ Dificuldades Encontradas
+
+Durante o desenvolvimento do CyberInsight AI foram encontrados desafios técnicos relacionados à integração entre frontend, backend e às ferramentas utilizadas no processo de desenvolvimento assistido por Inteligência Artificial.
+
+Os principais desafios enfrentados foram:
+
+- conflitos entre importações e exportações de módulos TypeScript;
+- incompatibilidades entre componentes React durante refatorações;
+- erros de tipagem ocasionados pela evolução das interfaces da aplicação;
+- problemas de configuração do ambiente Python para execução do FastAPI;
+- dificuldades na integração entre frontend e backend durante os testes locais;
+- necessidade de reorganização das rotas da aplicação após alterações estruturais;
+- ajustes manuais para manter compatibilidade entre componentes reutilizáveis.
+
+Outro desafio importante foi manter a consistência do código gerado por diferentes agentes de codificação. Em alguns momentos, as sugestões apresentavam abordagens distintas para um mesmo problema, exigindo análise crítica antes da integração ao projeto.
+
+Além dos desafios técnicos, também foi necessário reorganizar parte da interface para torná-la mais próxima de dashboards utilizados em Centros de Operações de Segurança (SOC), priorizando usabilidade, clareza visual e distribuição adequada das informações.
+
+---
+
+# 📚 Lições Aprendidas
+
+O desenvolvimento do CyberInsight AI demonstrou que agentes de codificação podem aumentar significativamente a produtividade quando utilizados de forma planejada e supervisionada.
+
+Entre as principais lições obtidas durante o projeto destacam-se:
+
+- dividir funcionalidades complexas em pequenas entregas facilita testes e manutenção;
+- prompts específicos produzem resultados mais consistentes do que solicitações genéricas;
+- a revisão humana continua sendo indispensável para validar decisões arquiteturais;
+- testes frequentes reduzem o impacto de alterações realizadas por agentes de IA;
+- documentação contínua simplifica a manutenção e a evolução do projeto;
+- versionamento frequente permite recuperar rapidamente alterações incorretas.
+
+O projeto também evidenciou que a Inteligência Artificial deve ser utilizada como ferramenta de apoio ao desenvolvimento, e não como substituta do conhecimento técnico do desenvolvedor.
+
+A combinação entre experiência humana, revisão técnica e agentes de codificação mostrou-se mais eficiente do que a utilização isolada de qualquer uma dessas abordagens.
+
+---
+
+# 🚧 Limitações Atuais e Trabalhos Futuros
+
+Embora o CyberInsight AI apresente uma estrutura funcional para demonstração das principais funcionalidades, algumas capacidades foram propositalmente mantidas como evolução futura, conforme previsto na proposta da disciplina.
+
+## Limitações da versão atual
+
+- utilização de respostas simuladas (mock) para funcionalidades relacionadas à IA;
+- ausência de autenticação completa de usuários;
+- persistência simplificada de dados;
+- análise de logs baseada em regras simuladas;
+- integração parcial entre frontend e backend durante o desenvolvimento inicial.
+
+## Evoluções previstas
+
+As próximas versões do projeto poderão incorporar:
+
+- integração com modelos de Inteligência Artificial Generativa;
+- classificação automática de incidentes;
+- geração inteligente de playbooks;
+- correlação automática de eventos;
+- mapeamento dinâmico para o framework MITRE ATT&CK;
+- geração automática de resumos técnicos;
+- autenticação baseada em perfis de usuário;
+- integração com bancos de dados relacionais;
+- implantação em ambiente de produção utilizando serviços em nuvem;
+- integração com ferramentas SIEM e plataformas de monitoramento.
+
+A arquitetura foi planejada para permitir a incorporação dessas funcionalidades com o mínimo de alterações estruturais, preservando a separação entre interface, serviços e camada de inteligência.
+
+---
+
+# ✅ Conclusão
+
+O **CyberInsight AI** foi desenvolvido com o objetivo de demonstrar a aplicação prática de agentes de codificação no desenvolvimento de software, atendendo aos requisitos propostos na Avaliação Intermediária da disciplina de IA Generativa.
+
+Ao longo do projeto foi construída uma plataforma funcional para apoio à operação de um Centro de Operações de Segurança (SOC), contemplando interface web moderna, gerenciamento de incidentes, dashboard operacional, importação de logs, histórico de eventos, playbooks simulados e integração com uma API REST.
+
+Embora a Inteligência Artificial Generativa ainda não tenha sido integrada nesta versão, toda a arquitetura foi planejada para permitir sua incorporação em futuras evoluções do sistema, preservando a separação entre frontend, backend e serviços inteligentes.
+
+O uso de agentes de codificação contribuiu significativamente para acelerar o desenvolvimento, especialmente na implementação de componentes, documentação e resolução de problemas. Entretanto, a experiência demonstrou que a supervisão humana permanece essencial para validar decisões arquiteturais, revisar o código gerado, executar testes e garantir a qualidade da aplicação.
+
+Como resultado, o CyberInsight AI constitui uma base sólida para futuras evoluções envolvendo Inteligência Artificial aplicada à Segurança da Informação, mantendo uma arquitetura modular, escalável e alinhada às boas práticas de desenvolvimento de software.
+
+---
+
+# 👩‍💻 Autora
+
+## Camila Gois de Jesus
+
+Engenheira de Computação.
+
+Especialista em Redes de Computadores.
+
+Formação complementar em Ciência de Dados, Inteligência Artificial e Cibersegurança.
+
+### Áreas de Interesse
+
+- Inteligência Artificial
+- IA Generativa
+- Ciência de Dados
+- Machine Learning
+- Deep Learning
+- Visão Computacional
+- Segurança da Informação
+- Resposta a Incidentes
+- Forense Computacional
+- Desenvolvimento Full Stack
+
+---
+
+## GitHub
+
+https://github.com/CamilaGois
+
+---
+
+## LinkedIn
+
+*www.linkedin.com/in/camilagoisj*
+
+---
+
+# 🙏 Agradecimentos
+
+Agradeço ao corpo docente da disciplina de IA Generativa pela proposta desta atividade, que proporcionou uma experiência prática na utilização de agentes de codificação aplicados ao desenvolvimento de software.
+
+O projeto permitiu explorar diferentes ferramentas baseadas em Inteligência Artificial, compreender suas potencialidades e limitações e aplicar boas práticas de engenharia de software durante todas as etapas do desenvolvimento.
+
+Agradeço também às comunidades Open Source responsáveis pelas tecnologias utilizadas neste projeto, em especial:
+
+- React
+- TypeScript
+- FastAPI
+- SQLite
+- Vite
+- Recharts
+- Lucide React
+- OpenAI
+- Hugging Face
+
+---
+
+# 📄 Licença
+
+Este projeto foi desenvolvido exclusivamente para fins acadêmicos como parte da disciplina de **IA Generativa**.
+
+O código-fonte permanece disponível para consulta e estudo, respeitando as licenças das bibliotecas e frameworks utilizados.
+
+© 2026 — Camila Gois de Jesus.
+
+---
+
+# 📚 Documentação Complementar
+
+Além deste README, o projeto disponibiliza documentação complementar na pasta **docs/**, contendo materiais utilizados durante o desenvolvimento.
+
+| Documento | Descrição |
+|------------|-----------|
+| `docs/prompts/` | Registro cronológico dos prompts utilizados durante o desenvolvimento com agentes de codificação. |
+| `docs/screenshots/` | Capturas de tela das principais funcionalidades da aplicação. |
+| `docs/arquitetura.md` | Descrição detalhada da arquitetura do sistema. |
+| `docs/decisoes.md` | Principais decisões técnicas e arquiteturais adotadas. |
+| `docs/problemas-encontrados.md` | Registro dos principais erros e respectivas soluções aplicadas. |
+| `docs/roadmap.md` | Planejamento das próximas funcionalidades e evolução do projeto. |
+
+---
+
+## ⭐ Considerações Finais
+
+O CyberInsight AI representa a aplicação prática dos conceitos estudados ao longo da disciplina, demonstrando como agentes de codificação podem ser utilizados para apoiar o desenvolvimento de software de maneira responsável, mantendo o desenvolvedor no centro das decisões técnicas.
+
+A documentação apresentada busca garantir transparência no processo de desenvolvimento, reprodutibilidade das etapas realizadas e evidências do uso incremental de Inteligência Artificial durante a construção da aplicação.
+
+---
+
+# 🙏 Agradecimentos
+
+Agradeço ao corpo docente da disciplina de IA Generativa pela proposta desta atividade, que proporcionou uma experiência prática na utilização de agentes de codificação aplicados ao desenvolvimento de software.
+
+O projeto permitiu explorar diferentes ferramentas baseadas em Inteligência Artificial, compreender suas potencialidades e limitações e aplicar boas práticas de engenharia de software durante todas as etapas do desenvolvimento.
+
+Agradeço também às comunidades Open Source responsáveis pelas tecnologias utilizadas neste projeto, em especial:
+
+- React
+- TypeScript
+- FastAPI
+- SQLite
+- Vite
+- Recharts
+- Lucide React
+- OpenAI
+- Hugging Face
+
+---
+
+# 📄 Licença
+
+Este projeto foi desenvolvido exclusivamente para fins acadêmicos como parte da disciplina de **IA Generativa**.
+
+O código-fonte permanece disponível para consulta e estudo, respeitando as licenças das bibliotecas e frameworks utilizados.
+
+© 2026 — Camila Gois de Jesus.
+
+---
+
+# 📚 Documentação Complementar
+
+Além deste README, o projeto disponibiliza documentação complementar na pasta **docs/**, contendo materiais utilizados durante o desenvolvimento.
+
+| Documento | Descrição |
+|------------|-----------|
+| `docs/prompts/` | Registro cronológico dos prompts utilizados durante o desenvolvimento com agentes de codificação. |
+| `docs/screenshots/` | Capturas de tela das principais funcionalidades da aplicação. |
+| `docs/arquitetura.md` | Descrição detalhada da arquitetura do sistema. |
+| `docs/decisoes.md` | Principais decisões técnicas e arquiteturais adotadas. |
+| `docs/problemas-encontrados.md` | Registro dos principais erros e respectivas soluções aplicadas. |
+| `docs/roadmap.md` | Planejamento das próximas funcionalidades e evolução do projeto. |
+
+---
+
+## ⭐ Considerações Finais
+
+O CyberInsight AI representa a aplicação prática dos conceitos estudados ao longo da disciplina, demonstrando como agentes de codificação podem ser utilizados para apoiar o desenvolvimento de software de maneira responsável, mantendo o desenvolvedor no centro das decisões técnicas.
+
+A documentação apresentada busca garantir transparência no processo de desenvolvimento, reprodutibilidade das etapas realizadas e evidências do uso incremental de Inteligência Artificial durante a construção da aplicação.
 
 
-| Arquivo/Pasta | Descrição |
-|--------------|-----------|
-| `docs/prompts/` | Registros dos prompts utilizados durante o desenvolvimento com agentes de codificação. |
-| `docs/prompts/dia01.md` | Prompts utilizados no primeiro dia de desenvolvimento. |
-| `docs/prompts/dia02.md` | Prompts utilizados no segundo dia de desenvolvimento. |
-| `docs/prompts/dia03.md` | Prompts utilizados no terceiro dia de desenvolvimento. |
-| `docs/prompts/dia04.md` | Prompts utilizados no quarto dia de desenvolvimento. |
-| `docs/prompts/dia05.md` | Prompts utilizados no quinto dia de desenvolvimento. |
-| `docs/screenshots/` | Capturas de tela das principais telas da aplicação. |
-| `docs/arquitetura.md` | Descrição mais detalhada da arquitetura proposta para o projeto. |
-| `docs/decisoes.md` | Registro das principais decisões técnicas e de design tomadas durante o desenvolvimento. |
-| `docs/problemas-encontrados.md` | Dificuldades, erros e limitações observadas durante a implementação. |
-| `docs/roadmap.md` | Planejamento de melhorias futuras e evolução da aplicação. |
 
-## Limitação encontrada no backend
-
-Durante a preparação do backend com FastAPI, foi identificada incompatibilidade do ambiente local com Python 3.14, especialmente na instalação do `pydantic-core`, dependência utilizada pelo FastAPI/Pydantic.
-
-Por esse motivo, a entrega intermediária priorizou o frontend funcional, a estrutura da aplicação, a navegação, as telas e os dados simulados, conforme o foco principal da avaliação. A arquitetura FastAPI + SQLite permanece documentada como evolução planejada.

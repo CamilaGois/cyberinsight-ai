@@ -20,10 +20,10 @@ type IncidenteHistorico = {
 function mapApiIncident(incident: ApiIncident): IncidenteHistorico {
   return {
     id: `INC-2026-${String(incident.id).padStart(3, "0")}`,
-    dataHora: "09/07/2026 13:00:00",
-    severidade: incident.severity,
-    incidente: incident.title,
-    origem: incident.source,
+    dataHora: new Date(incident.timestamp).toLocaleString("pt-BR"),
+    severidade: incident.severidade,
+    incidente: incident.titulo_alerta,
+    origem: incident.ip_origem,
     status: incident.status,
     analista: "Camila Gois",
   };

@@ -1,6 +1,6 @@
 ## Problemas encontrados durante o desenvolvimento
 
-Durante o desenvolvimento do CyberInsight AI, diversos problemas técnicos foram identificados e corrigidos com apoio de agentes de codificação (Codex, ChatGPT e validação manual no VS Code).
+Durante o desenvolvimento do CyberInsight AI, diversos problemas técnicos foram identificados e corrigidos com apoio de agentes de codificação (Codex, ChatGPT, Gemini e validação manual no VS Code).
 
 Esses problemas foram registrados ao longo do processo e serviram como base para evolução da arquitetura, melhoria da estabilidade da aplicação e aprendizado sobre integração de componentes em React + TypeScript.
 
@@ -11,8 +11,6 @@ As evidências abaixo foram capturadas durante a fase de desenvolvimento e debug
 ### Erro de importação/exportação
 
 Problemas relacionados à inconsistência entre exportações nomeadas e padrão (default export), causando falhas de compilação e impedindo a renderização da aplicação.
-
-![Erro Import](docs/screenshots/erro-import.png)
 
 ---
 
@@ -25,8 +23,6 @@ Durante a evolução do projeto, ocorreram erros de "Duplicate Identifier", caus
 - múltiplas declarações de funções com o mesmo nome
 
 Esses conflitos geraram falhas de compilação e exigiram revisão manual da estrutura do projeto.
-
-![Duplicate Error](docs/screenshots/erro-duplicado.png)
 
 ---
 

@@ -6,7 +6,7 @@ const navItems = [
   { label: "Entrada de Logs", path: "/logs" },
   { label: "Histórico", path: "/history" },
   { label: "Playbooks", path: "/playbook" },
-  { label: "Alertas", path: "/alerts" },
+  { label: "Explorador de IoCs", path: "/ioc" },
 ];
 
 export default function Sidebar() {
@@ -34,12 +34,6 @@ export default function Sidebar() {
             {item.label}
           </Link>
         ))}
-
-        <span>Análise</span>
-        <Link to="/ioc">IOC Explorer</Link>
-
-        <span>Sistema</span>
-        <Link to="/settings">Configurações</Link>
       </nav>
 
       <div className="app-system-status">

@@ -95,7 +95,7 @@ function Landing() {
             </p>
 
             <div className="hero-actions">
-              <a href="/dashboard" className="primary-action">
+              <a href="/" className="primary-action">
                 Acessar Plataforma
               </a>
 

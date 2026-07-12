@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import incidents, logs, playbooks
+from app.routers import incidents, logs, playbooks, iocs
 
 app = FastAPI(
     title="CyberInsight AI API",
@@ -24,6 +24,7 @@ app.add_middleware(
 app.include_router(incidents.router)
 app.include_router(logs.router)
 app.include_router(playbooks.router)
+app.include_router(iocs.router)
 
 
 @app.get("/")

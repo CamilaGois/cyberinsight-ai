@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import "./LogInput.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Topbar from "../../components/Topbar/Topbar";
+import { importLogMock, type LogAnalysisResponse } from "../../services/api";
 
 type TipoLog =
   | "Windows Event"
@@ -27,18 +28,32 @@ function LogInput() {
   const [tipoSelecionado, setTipoSelecionado] = useState<TipoLog>("Windows Event");
   const [importado, setImportado] = useState(false);
   const [dragAtivo, setDragAtivo] = useState(false);
+  const [analise, setAnalise] = useState<LogAnalysisResponse | null>(null);
+  const [carregando, setCarregando] = useState(false);
 
   function selecionarArquivo(file?: File) {
     if (!file) return;
 
     setArquivo(file);
     setImportado(false);
+    setAnalise(null);
   }
 
-  function importarLog() {
+  async function importarLog() {
     if (!arquivo) return;
 
-    setImportado(true);
+    setCarregando(true);
+    try {
+      const conteudo = await arquivo.text();
+      const resultado = await importLogMock(conteudo);
+      setAnalise(resultado);
+      setImportado(true);
+    } catch (erro) {
+      console.error("Erro ao importar log:", erro);
+      setImportado(false);
+    } finally {
+      setCarregando(false);
+    }
   }
 
   return (
@@ -134,42 +149,42 @@ function LogInput() {
                 <button
                   type="button"
                   className="primary-button"
-                  disabled={!arquivo}
+                  disabled={!arquivo || carregando}
                   onClick={importarLog}
                 >
-                  Importar Log
+                  {carregando ? "Processando..." : "Importar Log"}
                 </button>
               </div>
             </article>
 
-            {importado && (
+            {importado && analise && (
               <article className="log-card">
                 <div className="log-card-header">
                   <div>
                     <h2>Resultado da importação</h2>
-                    <small>Dados simulados após processamento do arquivo</small>
+                    <small>Análise realizada via API</small>
                   </div>
                 </div>
 
                 <div className="result-grid">
                   <div className="result-card blue">
-                    <span>Eventos</span>
-                    <strong>153</strong>
+                    <span>Eventos processados</span>
+                    <strong>{analise.eventos_processados}</strong>
                   </div>
 
                   <div className="result-card yellow">
-                    <span>Alertas</span>
-                    <strong>27</strong>
+                    <span>Alertas gerados</span>
+                    <strong>{analise.alertas_gerados}</strong>
                   </div>
 
                   <div className="result-card red">
-                    <span>Críticos</span>
-                    <strong>8</strong>
+                    <span>Eventos críticos</span>
+                    <strong>{analise.eventos_criticos}</strong>
                   </div>
 
                   <div className="result-card purple">
                     <span>Severidade predominante</span>
-                    <strong>Alta</strong>
+                    <strong>{analise.severidade_predominante}</strong>
                   </div>
                 </div>
               </article>
@@ -185,7 +200,7 @@ function LogInput() {
                 </div>
               </div>
 
-              {!importado ? (
+              {!importado || !analise ? (
                 <p className="empty-analysis">
                   Importe um arquivo de log para visualizar a análise simulada.
                 </p>
@@ -197,25 +212,27 @@ function LogInput() {
                   </div>
 
                   <div className="confidence-box">
-                    <span>Confiança</span>
-                    <strong>94%</strong>
+                    <span>Nível de risco geral</span>
+                    <strong>{analise.resumo_executivo.risco_geral}</strong>
                     <div>
                       <i />
                     </div>
                   </div>
 
                   <div className="mitre-box">
-                    <span>MITRE ATT&CK</span>
-                    <strong>T1110 - Brute Force</strong>
+                    <span>Ameaça identificada</span>
+                    <strong>{analise.resumo_executivo.ameaca_identificada}</strong>
                   </div>
 
-                  <h3>Recomendações simuladas</h3>
+                  <h3>TTPs mapeadas (MITRE ATT&CK)</h3>
                   <ul>
-                    <li>Validar origem dos eventos críticos.</li>
-                    <li>Bloquear IPs com múltiplas tentativas de autenticação.</li>
-                    <li>Verificar contas com falhas repetidas de login.</li>
-                    <li>Correlacionar eventos com histórico recente de incidentes.</li>
+                    {analise.resumo_executivo.ttps_mapeadas.map((ttp) => (
+                      <li key={ttp}>{ttp}</li>
+                    ))}
                   </ul>
+
+                  <h3>Recomendação imediata</h3>
+                  <p>{analise.resumo_executivo.recomendacao_imediata}</p>
                 </>
               )}
             </article>

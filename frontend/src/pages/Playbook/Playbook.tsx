@@ -1,89 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Topbar from "../../components/Topbar/Topbar";
+import { getApiPlaybooks, type ApiPlaybook } from "../../services/api";
 import "./Playbook.css";
 
-type Severidade = "Crítica" | "Alta" | "Média";
-
-type PlaybookItem = {
-  id: string;
-  nome: string;
-  mitre: string;
-  severidade: Severidade;
-  confianca: number;
-  tempoMedio: string;
-  probabilidadeSucesso: number;
-};
-
-const playbooks: PlaybookItem[] = [
-  {
-    id: "brute-force",
-    nome: "Brute Force",
-    mitre: "T1110",
-    severidade: "Crítica",
-    confianca: 94,
-    tempoMedio: "8 min",
-    probabilidadeSucesso: 92,
-  },
-  {
-    id: "malware",
-    nome: "Malware",
-    mitre: "T1055",
-    severidade: "Alta",
-    confianca: 91,
-    tempoMedio: "12 min",
-    probabilidadeSucesso: 89,
-  },
-  {
-    id: "phishing",
-    nome: "Phishing",
-    mitre: "T1566",
-    severidade: "Alta",
-    confianca: 96,
-    tempoMedio: "10 min",
-    probabilidadeSucesso: 94,
-  },
-  {
-    id: "port-scan",
-    nome: "Port Scan",
-    mitre: "T1046",
-    severidade: "Média",
-    confianca: 88,
-    tempoMedio: "6 min",
-    probabilidadeSucesso: 86,
-  },
-];
-
-const etapas = [
-  "Identificar evento",
-  "Validar evidências",
-  "Isolar ativo afetado",
-  "Aplicar contenção",
-  "Registrar encerramento",
-];
-
-const iocsSimulados = [
-  "192.168.1.45",
-  "185.199.108.153",
-  "login-failed-threshold",
-  "suspicious-auth-pattern",
-];
-
-const recomendacoes = [
-  "Correlacionar eventos com os últimos alertas críticos.",
-  "Validar escopo antes de aplicar contenção.",
-  "Registrar evidências antes do encerramento.",
-  "Revisar políticas de autenticação e bloqueio.",
-];
-
 function Playbook() {
-  const [playbookSelecionado, setPlaybookSelecionado] = useState<PlaybookItem>(
-    playbooks[0]
-  );
+  const [playbooks, setPlaybooks] = useState<ApiPlaybook[]>([]);
+  const [playbookSelecionado, setPlaybookSelecionado] = useState<ApiPlaybook | null>(null);
   const [statusExecucao, setStatusExecucao] = useState("");
+
+  useEffect(() => {
+    getApiPlaybooks()
+      .then((dados) => {
+        setPlaybooks(dados);
+        setPlaybookSelecionado(dados[0] ?? null);
+      })
+      .catch((erro) => {
+        console.error("Erro ao carregar playbooks da API:", erro);
+      });
+  }, []);
 
   function executarPlaybook() {
     setStatusExecucao("Playbook executado em modo simulado.");
+  }
+
+  if (!playbookSelecionado) {
+    return (
+      <div className="playbook-layout">
+        <Sidebar />
+        <main className="playbook-main">
+          <Topbar
+            title="Playbooks SOC"
+            subtitle="Procedimentos simulados de resposta a incidentes"
+          />
+          <p>Carregando playbooks...</p>
+        </main>
+      </div>
+    );
   }
 
   return (
@@ -122,8 +75,8 @@ function Playbook() {
                     }}
                   >
                     <div>
-                      <strong>{playbook.nome}</strong>
-                      <span>MITRE: {playbook.mitre}</span>
+                      <strong>{playbook.tática_mitre}</strong>
+                      <span>Técnica: {playbook.técnica_mapeada}</span>
                     </div>
 
                     <span className={`severity-pill ${playbook.severidade}`}>
@@ -131,8 +84,8 @@ function Playbook() {
                     </span>
 
                     <div className="playbook-meta">
-                      <small>Confiança: {playbook.confianca}%</small>
-                      <small>Tempo médio: {playbook.tempoMedio}</small>
+                      <small>Confiança: {playbook.confiança}%</small>
+                      <small>Tempo: {playbook.tempo_estimado_min} min</small>
                     </div>
                   </button>
                 ))}
@@ -142,7 +95,7 @@ function Playbook() {
             <section className="playbook-card">
               <div className="playbook-card-header">
                 <div>
-                  <h2>{playbookSelecionado.nome}</h2>
+                  <h2>{playbookSelecionado.tática_mitre}</h2>
                   <p>Detalhamento do playbook selecionado.</p>
                 </div>
 
@@ -153,29 +106,43 @@ function Playbook() {
 
               <div className="selected-summary">
                 <div>
-                  <span>MITRE ATT&CK</span>
-                  <strong>{playbookSelecionado.mitre}</strong>
+                  <span>Técnica MITRE</span>
+                  <strong>{playbookSelecionado.técnica_mapeada}</strong>
                 </div>
 
                 <div>
                   <span>Confiança</span>
-                  <strong>{playbookSelecionado.confianca}%</strong>
+                  <strong>{playbookSelecionado.confiança}%</strong>
                 </div>
 
                 <div>
                   <span>Tempo estimado</span>
-                  <strong>{playbookSelecionado.tempoMedio}</strong>
+                  <strong>{playbookSelecionado.tempo_estimado_min} min</strong>
+                </div>
+
+                <div>
+                  <span>Prioridade</span>
+                  <strong>{playbookSelecionado.prioridade}</strong>
                 </div>
               </div>
 
               <div className="steps-panel">
-                <h3>Etapas do playbook</h3>
+                <h3>Passos de mitigação</h3>
 
                 <ol>
-                  {etapas.map((etapa) => (
-                    <li key={etapa}>{etapa}</li>
+                  {playbookSelecionado.passos_de_mitigação.map((passo, idx) => (
+                    <li key={idx}>{passo}</li>
                   ))}
                 </ol>
+              </div>
+
+              <div className="steps-panel">
+                <h3>Isolamento recomendado</h3>
+                <p>
+                  {playbookSelecionado.isolamento_recomendado
+                    ? "Sim - Isolar ativo afetado da rede"
+                    : "Não - Monitorar sem isolar"}
+                </p>
               </div>
 
               <div className="execution-area">
@@ -192,38 +159,41 @@ function Playbook() {
             <section className="playbook-card ai-panel">
               <div className="playbook-card-header">
                 <div>
-                  <h2>Análise IA (Mock)</h2>
-                  <p>Resumo simulado sem integração com IA real.</p>
+                  <h2>Resumo do Playbook</h2>
+                  <p>Informações de resposta simulada.</p>
                 </div>
               </div>
 
               <div className="success-score">
-                <span>Probabilidade de sucesso</span>
-                <strong>{playbookSelecionado.probabilidadeSucesso}%</strong>
+                <span>Nível de confiança</span>
+                <strong>{playbookSelecionado.confiança}%</strong>
                 <div>
                   <i
                     style={{
-                      width: `${playbookSelecionado.probabilidadeSucesso}%`,
+                      width: `${playbookSelecionado.confiança}%`,
                     }}
                   />
                 </div>
               </div>
 
               <div className="side-section">
-                <h3>IOC simulados</h3>
-                <div className="ioc-list">
-                  {iocsSimulados.map((ioc) => (
-                    <span key={ioc}>{ioc}</span>
-                  ))}
-                </div>
+                <h3>Severidade</h3>
+                <span className={`severity-pill ${playbookSelecionado.severidade}`}>
+                  {playbookSelecionado.severidade}
+                </span>
               </div>
 
               <div className="side-section">
-                <h3>Recomendações simuladas</h3>
+                <h3>Detalhes</h3>
                 <ul>
-                  {recomendacoes.map((recomendacao) => (
-                    <li key={recomendacao}>{recomendacao}</li>
-                  ))}
+                  <li>Tática: {playbookSelecionado.tática_mitre}</li>
+                  <li>Prioridade: {playbookSelecionado.prioridade}</li>
+                  <li>
+                    Isolamento:{" "}
+                    {playbookSelecionado.isolamento_recomendado
+                      ? "Recomendado"
+                      : "Não recomendado"}
+                  </li>
                 </ul>
               </div>
             </section>

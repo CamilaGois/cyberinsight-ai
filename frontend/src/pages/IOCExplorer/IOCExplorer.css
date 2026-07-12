@@ -1,0 +1,361 @@
+/* IOC Explorer Main Layout */
+.ioc-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+.ioc-main {
+  flex: 1;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+}
+
+.ioc-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Filters Section */
+.ioc-filters {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  align-items: flex-end;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #495057;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-select,
+.filter-input {
+  padding: 0.75rem 1rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  background-color: #fff;
+}
+
+.filter-select:focus,
+.filter-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.filter-input {
+  min-width: 300px;
+}
+
+.filter-stats {
+  text-align: right;
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* States */
+.loading-state,
+.error-state,
+.empty-state {
+  background: white;
+  border-radius: 12px;
+  padding: 3rem;
+  text-align: center;
+  color: #6c757d;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.error-state {
+  background-color: #fff5f5;
+  color: #d32f2f;
+}
+
+.empty-state {
+  background-color: #f0f7ff;
+  color: #0066cc;
+}
+
+/* Table Wrapper */
+.ioc-table-wrapper {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+}
+
+/* IoC Table Styles */
+.ioc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.ioc-table thead {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.85rem;
+}
+
+.ioc-table th {
+  padding: 1.25rem;
+  text-align: left;
+  border-bottom: 2px solid #e9ecef;
+  white-space: nowrap;
+}
+
+.ioc-table tbody tr {
+  border-bottom: 1px solid #e9ecef;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ioc-table tbody tr:hover {
+  background-color: #f8f9fa;
+  box-shadow: inset 0 0 0 1px rgba(0, 123, 255, 0.1);
+}
+
+/* Severity Row Highlighting */
+.ioc-table tr.severity-crítica {
+  border-left: 4px solid #d32f2f;
+}
+
+.ioc-table tr.severity-alta {
+  border-left: 4px solid #f57c00;
+}
+
+.ioc-table tr.severity-média {
+  border-left: 4px solid #fbc02d;
+}
+
+.ioc-table tr.severity-baixa {
+  border-left: 4px solid #388e3c;
+}
+
+.ioc-table td {
+  padding: 1rem 1.25rem;
+}
+
+/* Cell Specific Styles */
+.tipo-cell {
+  min-width: 140px;
+}
+
+.tipo-badge {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  background-color: #e7f3ff;
+  color: #0066cc;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.valor-cell {
+  font-family: "Monaco", "Courier New", monospace;
+  color: #333;
+}
+
+.ioc-valor {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  word-break: break-all;
+  font-size: 0.85rem;
+  border-left: 3px solid #007bff;
+}
+
+.classificacao-cell {
+  min-width: 180px;
+  color: #495057;
+  font-weight: 500;
+}
+
+.severidade-cell {
+  min-width: 100px;
+}
+
+.severity-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  color: white;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-align: center;
+  min-width: 80px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Confidence Bar */
+.confianca-cell {
+  min-width: 130px;
+}
+
+.confidence-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  min-width: 120px;
+}
+
+.confidence-fill {
+  height: 6px;
+  background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcf7f);
+  border-radius: 3px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.confidence-bar::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 6px;
+  background-color: #e9ecef;
+  border-radius: 3px;
+  position: relative;
+  z-index: 0;
+}
+
+.confidence-bar span {
+  font-weight: 600;
+  color: #333;
+  min-width: 40px;
+  text-align: right;
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Date Cells */
+.data-cell {
+  min-width: 180px;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+/* Geolocation Badge */
+.geoloc-cell {
+  min-width: 90px;
+  text-align: center;
+}
+
+.geoloc-badge {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  background-color: #f0e5ff;
+  color: #6f42c1;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Fonte Cell */
+.fonte-cell {
+  min-width: 130px;
+  color: #495057;
+  font-size: 0.9rem;
+}
+
+/* Relacionados Cell */
+.relacionados-cell {
+  text-align: center;
+  min-width: 80px;
+}
+
+.relacionados-badge {
+  display: inline-block;
+  min-width: 35px;
+  padding: 0.5rem;
+  background-color: #fff3cd;
+  color: #856404;
+  border-radius: 6px;
+  font-weight: 600;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .ioc-filters {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .filter-input {
+    min-width: 100%;
+  }
+
+  .filter-stats {
+    text-align: left;
+  }
+
+  .ioc-table {
+    font-size: 0.85rem;
+  }
+
+  .ioc-table th,
+  .ioc-table td {
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .ioc-container {
+    padding: 1rem;
+  }
+
+  .ioc-table-wrapper {
+    border-radius: 8px;
+  }
+
+  .ioc-table {
+    font-size: 0.8rem;
+  }
+
+  .ioc-table th,
+  .ioc-table td {
+    padding: 0.5rem;
+  }
+
+  .ioc-valor {
+    font-size: 0.75rem;
+  }
+
+  .tipo-badge,
+  .severity-badge,
+  .geoloc-badge,
+  .relacionados-badge {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.5rem;
+  }
+}

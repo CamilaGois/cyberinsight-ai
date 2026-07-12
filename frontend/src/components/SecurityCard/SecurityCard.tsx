@@ -1,3 +1,5 @@
+import { ShieldAlert, AlertTriangle, Info, CheckCircle, Search } from 'lucide-react';
+
 type Props = {
   title: string;
   severity: string;
@@ -11,18 +13,23 @@ export default function SecurityCard({
   status,
   onAnalyze,
 }: Props) {
-  const severityColor =
-    severity === "ALTA"
-      ? "#ff4d4f"
-      : severity === "MÉDIA"
-      ? "#faad14"
-      : "#52c41a";
+  
+  // Função de mapeamento para ícones e cores
+  const getSeverityStyle = (sev: string) => {
+    const s = sev.toUpperCase();
+    if (s === "CRÍTICA" || s === "CRITICAL") return { icon: <ShieldAlert size={20} />, color: "#ef4444" };
+    if (s === "ALTA" || s === "HIGH") return { icon: <AlertTriangle size={20} />, color: "#f97316" };
+    if (s === "MÉDIA" || s === "MEDIUM") return { icon: <Info size={20} />, color: "#eab308" };
+    return { icon: <CheckCircle size={20} />, color: "#22c55e" };
+  };
+
+  const { icon, color } = getSeverityStyle(severity);
 
   return (
     <div
       style={{
         background: "#fff",
-        borderLeft: `6px solid ${severityColor}`,
+        borderLeft: `6px solid ${color}`,
         padding: 18,
         marginTop: 15,
         borderRadius: 10,
@@ -30,27 +37,25 @@ export default function SecurityCard({
         transition: "0.2s",
       }}
     >
-      <h3
-        style={{
-          marginBottom: 10,
-          color: "#0f172a",
-        }}
-      >
-        🚨 {title}
+      <h3 style={{ marginBottom: 10, color: "#0f172a", display: "flex", alignItems: "center", gap: 8 }}>
+        {icon} {title}
       </h3>
 
-      <p>
-        <strong>Severidade:</strong> {severity}
+      <p style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+        <strong>Severidade:</strong> 
+        <span style={{ color: color, fontWeight: 600 }}>{severity}</span>
       </p>
 
-      <p>
+      <p style={{ marginBottom: 15 }}>
         <strong>Status:</strong> {status}
       </p>
 
       <button
         onClick={onAnalyze}
         style={{
-          marginTop: 15,
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
           padding: "10px 16px",
           border: "none",
           background: "#0f172a",
@@ -60,7 +65,7 @@ export default function SecurityCard({
           fontWeight: "bold",
         }}
       >
-        🔍 Analisar Log
+        <Search size={16} /> Analisar Log
       </button>
     </div>
   );
