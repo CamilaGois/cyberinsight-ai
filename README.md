@@ -67,7 +67,7 @@ A arquitetura foi planejada para permitir futura integração com modelos de IA 
 ## Login 
 
 <p align="center">
-<img src="docs/screenshots/login.png" width="900">
+<img src="docs/screenshots/login-vercel.png" width="900">
 </p>
 
 ## Landing Page 
@@ -95,7 +95,7 @@ A arquitetura foi planejada para permitir futura integração com modelos de IA 
 ## Histórico
 
 <p align="center">
-<img src="docs/screenshots/historico.png" width="900">
+<img src="docs/screenshots/historico-atualizado.png" width="900">
 </p>
 
 ---
@@ -103,12 +103,12 @@ A arquitetura foi planejada para permitir futura integração com modelos de IA 
 ## Playbooks
 
 <p align="center">
-<img src="docs/screenshots/playbooks-soc.png" width="900">
+<img src="docs/screenshots/playbook-atualizado.png" width="900">
 </p>
 
 ---
 
-## PExplorador de IOC
+## Explorador de IOC
 
 <p align="center">
 <img src="docs/screenshots/IOC.png" width="900">
