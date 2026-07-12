@@ -1,21 +1,61 @@
-import { getIncidents, saveIncidents } from "./incidentStorage";
-import { savePlaybook } from "./playbookStorage";
-import { detectAttackType } from "./detectionEngine";
-import { generateSOCPlaybook } from "./socPipeline";
+import {
+  getIncidents,
+  saveIncidents,
+  type Incident,
+} from "./incidentStorage";
 
-export function runSOCPipeline() {
+import {
+  savePlaybook,
+  type Playbook,
+} from "./playbookStorage";
+
+import { detectAttackType } from "./detectionEngine";
+
+function generateSOCPlaybook(incident: Incident): Playbook {
+  const attackType = detectAttackType(incident);
+
+  const steps =
+    incident.severity === "Alta"
+      ? [
+          "Isolar o ativo comprometido",
+          "Coletar e preservar evidências",
+          "Analisar os logs relacionados",
+          "Identificar a origem do incidente",
+          "Escalar o incidente para o SOC Nível 2",
+        ]
+      : incident.severity === "Média"
+        ? [
+            "Validar o alerta de segurança",
+            "Analisar os logs relacionados",
+            "Identificar atividades suspeitas",
+            "Registrar o incidente",
+          ]
+        : [
+            "Monitorar a atividade",
+            "Validar possíveis falsos positivos",
+            "Registrar o evento",
+          ];
+
+  return {
+    id: incident.id,
+    title: `Playbook: ${incident.title} — ${String(attackType)}`,
+    severity: incident.severity,
+    steps,
+  };
+}
+
+export function runSOCPipeline(): void {
   const incidents = getIncidents();
 
-  const enriched = incidents.map((inc) => ({
-    ...inc,
-    type: detectAttackType(inc),
-    status: "Em investigação",
+  const updatedIncidents: Incident[] = incidents.map((incident) => ({
+    ...incident,
+    status: "Em análise",
   }));
 
-  // opcional: salvar evolução do incidente
-  saveIncidents(enriched);
+  saveIncidents(updatedIncidents);
 
-  const playbooks = enriched.map(generateSOCPlaybook);
+  const playbooks: Playbook[] =
+    updatedIncidents.map(generateSOCPlaybook);
 
   savePlaybook(playbooks);
 
