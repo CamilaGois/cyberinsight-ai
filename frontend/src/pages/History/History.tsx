@@ -4,6 +4,54 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import Topbar from "../../components/Topbar/Topbar";
 import { getApiIncidents, type ApiIncident } from "../../services/api";
 
+const FALLBACK_INCIDENTS: ApiIncident[] = [
+  {
+    id: 1,
+    titulo_alerta: "SSH Brute Force Detection",
+    severidade: "Alta",
+    status: "Investigando",
+    ip_origem: "192.168.1.105",
+    timestamp: new Date().toISOString(),
+    host_afetado: "srv-web-01",
+  },
+  {
+    id: 2,
+    titulo_alerta: "Phishing Campaign Identified",
+    severidade: "Crítica",
+    status: "Ativo",
+    ip_origem: "10.0.0.88",
+    timestamp: new Date(Date.now() - 3600000).toISOString(),
+    host_afetado: "mail-relay-02",
+  },
+  {
+    id: 3,
+    titulo_alerta: "Unauthorized Access Attempt",
+    severidade: "Média",
+    status: "Resolvido",
+    ip_origem: "172.16.0.45",
+    timestamp: new Date(Date.now() - 7200000).toISOString(),
+    host_afetado: "db-server-03",
+  },
+  {
+    id: 4,
+    titulo_alerta: "DNS Tunneling Suspected",
+    severidade: "Alta",
+    status: "Investigando",
+    ip_origem: "192.168.2.200",
+    timestamp: new Date(Date.now() - 10800000).toISOString(),
+    host_afetado: "dns-resolver-01",
+  },
+  {
+    id: 5,
+    titulo_alerta: "Ransomware Beaconing Activity",
+    severidade: "Crítica",
+    status: "Ativo",
+    ip_origem: "203.0.113.50",
+    timestamp: new Date(Date.now() - 1800000).toISOString(),
+    host_afetado: "endpoint-wh-12",
+  },
+];
+
 type Severidade = "Crítica" | "Alta" | "Média" | "Baixa";
 type FiltroSeveridade = "Todos" | Severidade;
 
@@ -37,6 +85,7 @@ function History() {
   const [incidentes, setIncidentes] = useState<IncidenteHistorico[]>([]);
   const [incidenteSelecionado, setIncidenteSelecionado] =
     useState<IncidenteHistorico | null>(null);
+  const [erro, setErro] = useState<string | null>(null);
 
   useEffect(() => {
     getApiIncidents()
@@ -45,9 +94,14 @@ function History() {
 
         setIncidentes(mapped);
         setIncidenteSelecionado(mapped[0] ?? null);
+        setErro(null);
       })
       .catch((error) => {
-        console.error("Erro ao carregar incidentes da API:", error);
+        console.warn("API indisponível — usando dados simulados:", error);
+        const mapped = FALLBACK_INCIDENTS.map(mapApiIncident);
+        setIncidentes(mapped);
+        setIncidenteSelecionado(mapped[0] ?? null);
+        setErro("⚠ API indisponível — dados simulados.");
       });
   }, []);
 
@@ -90,6 +144,12 @@ function History() {
           title="Histórico de Incidentes"
           subtitle="Consulta e auditoria dos eventos analisados"
         />
+
+        {erro && (
+          <div className="history-banner warning">
+            {erro}
+          </div>
+        )}
 
         <section className="history-kpi-grid">
           <article className="history-kpi-card blue">
@@ -273,7 +333,7 @@ function History() {
             ) : (
               <article className="history-card">
                 <h2>Nenhum incidente selecionado</h2>
-                <p>Os dados serão exibidos após o carregamento da API.</p>
+                <p>Selecione um incidente na tabela ao lado para visualizar os detalhes.</p>
               </article>
             )}
           </aside>

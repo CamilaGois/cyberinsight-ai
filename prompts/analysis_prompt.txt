@@ -1,0 +1,33 @@
+# analysis_prompt.txt
+
+Analise o log de segurança apresentado abaixo e produza uma avaliação técnica completa, utilizando exclusivamente as evidências disponíveis.
+
+A análise deve conter:
+
+* título do incidente;
+* classificação do evento;
+* severidade;
+* nível de confiança;
+* resumo executivo;
+* evidências observadas;
+* técnicas MITRE ATT&CK relacionadas;
+* Indicadores de Comprometimento identificados;
+* recomendações defensivas;
+* playbook de resposta sugerido.
+
+Regras para a análise:
+
+1. Não utilize informações externas ao log.
+2. Não invente usuários, endereços IP, domínios, hashes, arquivos, processos, portas ou eventos.
+3. Quando uma informação não puder ser identificada, indique claramente que não há evidências suficientes.
+4. Quando não houver técnicas MITRE ATT&CK aplicáveis, retorne uma lista vazia.
+5. Quando não houver Indicadores de Comprometimento identificáveis, retorne uma lista vazia.
+6. O nível de confiança deve considerar a quantidade, a qualidade e a clareza das evidências presentes no log.
+7. As recomendações devem ser defensivas e não devem executar ações automaticamente.
+8. A resposta deve seguir exatamente o schema estruturado definido pela aplicação, sem campos adicionais e sem texto fora da estrutura esperada.
+
+=== INÍCIO DO LOG ===
+
+{log_raw}
+
+=== FIM DO LOG ===

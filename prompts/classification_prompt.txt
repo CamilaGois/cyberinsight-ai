@@ -1,0 +1,34 @@
+# classification_prompt.txt
+
+Classifique o evento de segurança apresentado utilizando exclusivamente as evidências contidas no log.
+
+Selecione apenas uma das seguintes categorias:
+
+* força bruta;
+* malware;
+* comunicação maliciosa;
+* varredura de portas;
+* tentativa de acesso não autorizado;
+* exfiltração de dados;
+* comportamento suspeito;
+* evento informativo;
+* outro incidente de segurança.
+
+Em seguida, classifique a severidade utilizando apenas um dos seguintes níveis:
+
+* Crítica;
+* Alta;
+* Média;
+* Baixa.
+
+Regras obrigatórias:
+
+1. Baseie toda a classificação exclusivamente nas evidências presentes no log.
+2. Não faça suposições ou inferências sem suporte nas evidências.
+3. Caso existam indícios insuficientes para uma classificação específica, utilize **"comportamento suspeito"** ou **"evento informativo"**, conforme o contexto observado.
+4. A justificativa deve ser objetiva, técnica e fundamentada nas evidências identificadas.
+5. Não inclua informações externas ao log.
+6. Não gere recomendações, playbooks ou análises adicionais.
+7. Retorne apenas os campos definidos pelo schema da aplicação.
+
+A classificação deve ser objetiva, consistente, justificável e compatível com o conteúdo do log.

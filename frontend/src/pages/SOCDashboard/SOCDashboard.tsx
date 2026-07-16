@@ -127,7 +127,8 @@ function normalizeIncident(raw: Record<string, unknown>, index: number): Inciden
   return {
     id: String(raw.id ?? index + 1),
     title: String(
-      raw.title ??
+      raw.titulo_alerta ??
+        raw.title ??
         raw.titulo ??
         raw.description ??
         raw.descricao ??
@@ -172,7 +173,8 @@ function SOCDashboard() {
           setIncidents(normalized);
           setApiStatus("online");
         }
-      } catch {
+      } catch (error) {
+        console.warn("API indisponível — usando dados simulados:", error);
         if (active) {
           setIncidents(FALLBACK_INCIDENTS);
           setApiStatus("fallback");
@@ -332,6 +334,12 @@ function SOCDashboard() {
             </div>
           </div>
         </header>
+
+        {apiStatus === "fallback" && (
+          <div className="soc-api-warning">
+            ⚠ API indisponível — dados simulados.
+          </div>
+        )}
 
         <section className="soc-kpi-grid">
           <article className="soc-kpi-card total">

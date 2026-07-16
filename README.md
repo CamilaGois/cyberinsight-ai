@@ -565,6 +565,82 @@ A comunicação entre frontend e backend é realizada utilizando requisições H
 
 ---
 
+## Testes da IA
+
+Foram realizados testes com diferentes tipos de logs para validar a integração entre o frontend React, o backend FastAPI e a Inteligência Artificial.
+
+### Teste 1 – Força Bruta
+
+O sistema identificou múltiplas tentativas de autenticação, classificando corretamente o incidente como ataque de força bruta e relacionando-o à técnica MITRE ATT&CK T1110.
+
+**Dashboard**
+
+![Força Bruta Dashboard](docs/screenshots/teste-log-suspeito-forca-bruta-dsh.png)
+
+**Swagger**
+
+![Força Bruta Swagger](docs/screenshots/teste-log-suspeito-forca-bruta-swg.png)
+
+---
+
+### Teste 2 – Malware (Trojan)
+
+O sistema analisou um alerta proveniente de um Endpoint Protection, identificando corretamente um arquivo executável malicioso do tipo Trojan.
+
+**Dashboard**
+
+![Malware Dashboard](docs/screenshots/teste-log-malware-dsh.png)
+
+**Swagger**
+
+![Malware Swagger](docs/screenshots/teste-log-malware-swg.png)
+
+---
+
+### Teste 3 – Comunicação Maliciosa
+
+O sistema detectou uma possível comunicação Command and Control (C2), extraindo IoCs como endereço IP, domínio suspeito e recomendações de contenção.
+
+**Dashboard**
+
+![Comunicação Maliciosa Dashboard](docs/screenshots/teste-log-comunicacao-maliciosa-dsh.png)
+
+**Swagger**
+
+![Comunicação Maliciosa Swagger](docs/screenshots/teste-log-comunicacao-maliciosa-swg.png)
+
+---
+
+### Histórico de Incidentes
+
+Após as análises, os incidentes foram armazenados corretamente no histórico da aplicação.
+
+![Histórico Atualizado](docs/screenshots/teste-log-historico-atualizado-16-07-2026.png)
+
+---
+
+### Validação da API
+
+O endpoint `POST /api/ai/analyze` foi validado diretamente pelo Swagger, retornando resposta HTTP 200 OK e análise estruturada.
+
+![Swagger AI Analyze](docs/screenshots/swagger-ai-analyze-200.png)
+
+---
+
+### Resultado dos Testes
+
+Os testes demonstraram que o sistema é capaz de:
+
+- importar logs reais;
+- analisar diferentes cenários de segurança utilizando IA;
+- classificar incidentes automaticamente;
+- identificar IoCs (IPs, domínios e arquivos);
+- relacionar técnicas MITRE ATT&CK;
+- gerar recomendações e playbooks;
+- registrar os incidentes no histórico da aplicação.
+
+---
+
 # 🤖 Uso de Agentes de Codificação
 
 O desenvolvimento do **CyberInsight AI** foi realizado com o apoio de agentes de codificação e assistentes baseados em Inteligência Artificial, utilizados para acelerar tarefas de implementação, documentação, revisão técnica e resolução de problemas.
@@ -770,6 +846,85 @@ As próximas versões do projeto poderão incorporar:
 - integração com ferramentas SIEM e plataformas de monitoramento.
 
 A arquitetura foi planejada para permitir a incorporação dessas funcionalidades com o mínimo de alterações estruturais, preservando a separação entre interface, serviços e camada de inteligência.
+
+---
+
+## Melhorias Futuras e Evolução do Projeto
+
+O CyberInsight AI foi arquitetado para evoluir continuamente. Abaixo estão as principais melhorias e integrações previstas para as próximas versões.
+
+### 🔮 Funcionalidades Planejadas
+
+- **Geração de relatórios em PDF e CSV** — exportação de incidentes, playbooks e indicadores para compartilhamento e auditoria.
+- **Perfis de Administrador e Analista** — controle de acesso baseado em papéis (RBAC) com permissões diferenciadas.
+- **Fluxo Landing Page → Login → Dashboard** — jornada completa do usuário desde a apresentação até a operação.
+- **Melhoria da navegação** — refinamento da experiência do usuário com menus contextuais, atalhos e breadcrumbs.
+- **Processamento de logs reais** — análise de arquivos de log autênticos com extração automatizada de eventos.
+- **Integração futura com LLM** — classificação, sumarização e recomendação de respostas utilizando modelos de linguagem.
+- **Alertas em tempo real** — notificações push e painel de alertas atualizado dinamicamente.
+- **Integração com Zabbix** — recebimento de eventos e métricas diretamente do Zabbix via API/webhook.
+- **Integração com Grafana** — visualização avançada de métricas e dashboards de monitoramento.
+
+---
+
+### 📡 Zabbix — Fonte de Monitoramento
+
+O **Zabbix** será integrado como fonte primária de monitoramento de infraestrutura, fornecendo dados sobre:
+
+- **Hosts** — descoberta, disponibilidade e status de dispositivos monitorados.
+- **CPU** — percentual de uso, carga média e histórico de processamento.
+- **Memória** — consumo de RAM, swap e tendências de utilização.
+- **Disco** — espaço utilizado, disponível, latência e operações de I/O.
+- **Rede** — tráfego de entrada/saída, pacotes descartados e erros de interface.
+- **Serviços** — status de serviços críticos (HTTP, SSH, banco de dados, etc.).
+- **Eventos e alertas** — disparo de eventos com severidade, timestamp e host de origem.
+
+Os eventos do Zabbix serão recebidos via webhook no endpoint `/api/zabbix/events` e encaminhados para processamento e correlação.
+
+---
+
+### 📊 Grafana — Camada de Visualização
+
+O **Grafana** será utilizado como camada de visualização e dashboards, permitindo acompanhar em tempo real:
+
+- **Disponibilidade** — uptime dos hosts e serviços monitorados.
+- **Alertas ativos** — painel centralizado com todos os alertas em estado *problem*.
+- **Incidentes por severidade** — distribuição visual de incidentes classificados por criticidade.
+- **CPU, memória, disco e rede** — gráficos históricos e em tempo real dos principais recursos.
+- **Tempo médio de resposta** — métricas de latência e performance dos serviços.
+- **Séries temporais** — análise temporal de eventos e correlação entre métricas.
+
+---
+
+### 🏗️ Arquitetura Futura
+
+```
+Zabbix
+  ↓ API / Webhook
+FastAPI
+  ↓
+Banco de incidentes
+  ↓
+CyberInsight AI
+  ↓
+Histórico, IoCs, Playbooks e Relatórios
+```
+
+```
+Zabbix
+  ↓
+Grafana
+  ↓
+Dashboards de monitoramento
+```
+
+```
+Logs + IoCs + Alertas
+  ↓
+LLM
+  ↓
+Resumo, classificação, recomendação e tomada de decisão
+```
 
 ---
 

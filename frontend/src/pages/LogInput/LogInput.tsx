@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import "./LogInput.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Topbar from "../../components/Topbar/Topbar";
-import { importLogMock, type LogAnalysisResponse } from "../../services/api";
+import { analyzeLogWithAI, type IncidentAnalysis } from "../../services/api";
 
 type TipoLog =
   | "Windows Event"
@@ -28,8 +28,9 @@ function LogInput() {
   const [tipoSelecionado, setTipoSelecionado] = useState<TipoLog>("Windows Event");
   const [importado, setImportado] = useState(false);
   const [dragAtivo, setDragAtivo] = useState(false);
-  const [analise, setAnalise] = useState<LogAnalysisResponse | null>(null);
+  const [analise, setAnalise] = useState<IncidentAnalysis | null>(null);
   const [carregando, setCarregando] = useState(false);
+  const [erro, setErro] = useState<string | null>(null);
 
   function selecionarArquivo(file?: File) {
     if (!file) return;
@@ -37,20 +38,24 @@ function LogInput() {
     setArquivo(file);
     setImportado(false);
     setAnalise(null);
+    setErro(null);
   }
 
   async function importarLog() {
     if (!arquivo) return;
 
     setCarregando(true);
+    setAnalise(null);
+    setErro(null);
     try {
       const conteudo = await arquivo.text();
-      const resultado = await importLogMock(conteudo);
+      const resultado = await analyzeLogWithAI(conteudo);
       setAnalise(resultado);
       setImportado(true);
-    } catch (erro) {
-      console.error("Erro ao importar log:", erro);
+    } catch (err) {
+      console.error("Erro ao analisar log:", err);
       setImportado(false);
+      setErro(err instanceof Error ? err.message : "Erro desconhecido ao analisar log");
     } finally {
       setCarregando(false);
     }
@@ -161,30 +166,30 @@ function LogInput() {
               <article className="log-card">
                 <div className="log-card-header">
                   <div>
-                    <h2>Resultado da importação</h2>
-                    <small>Análise realizada via API</small>
+                    <h2>Resultado da análise</h2>
+                    <small>Análise realizada via IA</small>
                   </div>
                 </div>
 
                 <div className="result-grid">
                   <div className="result-card blue">
-                    <span>Eventos processados</span>
-                    <strong>{analise.eventos_processados}</strong>
+                    <span>Classificação</span>
+                    <strong>{analise.classificacao}</strong>
                   </div>
 
                   <div className="result-card yellow">
-                    <span>Alertas gerados</span>
-                    <strong>{analise.alertas_gerados}</strong>
+                    <span>Severidade</span>
+                    <strong>{analise.severidade}</strong>
                   </div>
 
                   <div className="result-card red">
-                    <span>Eventos críticos</span>
-                    <strong>{analise.eventos_criticos}</strong>
+                    <span>Confiança</span>
+                    <strong>{analise.nivel_confianca}%</strong>
                   </div>
 
                   <div className="result-card purple">
-                    <span>Severidade predominante</span>
-                    <strong>{analise.severidade_predominante}</strong>
+                    <span>Playbook</span>
+                    <strong>{analise.playbook_sugerido.nome || "N/A"}</strong>
                   </div>
                 </div>
               </article>
@@ -195,16 +200,28 @@ function LogInput() {
             <article className="log-card ai-log-card">
               <div className="log-card-header">
                 <div>
-                  <h2>Análise IA (Mock)</h2>
-                  <small>Sem integração com IA real</small>
+                  <h2>Análise IA</h2>
+                  <small>Análise via SOC Agent</small>
                 </div>
               </div>
 
-              {!importado || !analise ? (
-                <p className="empty-analysis">
-                  Importe um arquivo de log para visualizar a análise simulada.
+              {carregando && (
+                <p className="empty-analysis">Analisando log com IA...</p>
+              )}
+
+              {erro && !carregando && (
+                <p className="empty-analysis" style={{ color: "var(--red, #e74c3c)" }}>
+                  {erro}
                 </p>
-              ) : (
+              )}
+
+              {!carregando && !erro && (!importado || !analise) && (
+                <p className="empty-analysis">
+                  Importe um arquivo de log para visualizar a análise.
+                </p>
+              )}
+
+              {!carregando && importado && analise && (
                 <>
                   <div className="analysis-file">
                     <span>Arquivo analisado</span>
@@ -212,27 +229,61 @@ function LogInput() {
                   </div>
 
                   <div className="confidence-box">
-                    <span>Nível de risco geral</span>
-                    <strong>{analise.resumo_executivo.risco_geral}</strong>
-                    <div>
-                      <i />
-                    </div>
+                    <span>Classificação</span>
+                    <strong>{analise.classificacao}</strong>
                   </div>
 
                   <div className="mitre-box">
-                    <span>Ameaça identificada</span>
-                    <strong>{analise.resumo_executivo.ameaca_identificada}</strong>
+                    <span>Severidade</span>
+                    <strong>{analise.severidade}</strong>
                   </div>
 
-                  <h3>TTPs mapeadas (MITRE ATT&CK)</h3>
+                  <div className="confidence-box">
+                    <span>Confiança</span>
+                    <strong>{analise.nivel_confianca}%</strong>
+                  </div>
+
+                  <h3>Resumo executivo</h3>
+                  <p>{analise.resumo_executivo}</p>
+
+                  <h3>Evidências</h3>
                   <ul>
-                    {analise.resumo_executivo.ttps_mapeadas.map((ttp) => (
-                      <li key={ttp}>{ttp}</li>
+                    {analise.evidencias.map((ev, i) => (
+                      <li key={i}>{ev}</li>
                     ))}
                   </ul>
 
-                  <h3>Recomendação imediata</h3>
-                  <p>{analise.resumo_executivo.recomendacao_imediata}</p>
+                  <h3>Técnicas MITRE ATT&CK</h3>
+                  <ul>
+                    {analise.tecnicas_mitre_attck.map((tec) => (
+                      <li key={tec.id}>
+                        {tec.id} — {tec.nome} (confiança: {tec.confianca}%)
+                      </li>
+                    ))}
+                  </ul>
+
+                  <h3>IoCs relacionados</h3>
+                  {analise.iocs_relacionados.length === 0 ? (
+                    <p>Nenhum IoC detectado.</p>
+                  ) : (
+                    <ul>
+                      {analise.iocs_relacionados.map((ioc, i) => (
+                        <li key={i}>
+                          {ioc.tipo}: {ioc.valor} (fonte: {ioc.fonte})
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <h3>Recomendações</h3>
+                  <ul>
+                    {analise.recomendacoes.map((rec, i) => (
+                      <li key={i}>{rec}</li>
+                    ))}
+                  </ul>
+
+                  <h3>Playbook sugerido</h3>
+                  <p>{analise.playbook_sugerido.nome || "Nenhum playbook sugerido."}</p>
                 </>
               )}
             </article>
@@ -256,7 +307,7 @@ function LogInput() {
                   Modo <span>Simulado</span>
                 </p>
                 <p>
-                  IA real <span>Não integrada</span>
+                  IA real <span>Integrada</span>
                 </p>
               </div>
             </article>

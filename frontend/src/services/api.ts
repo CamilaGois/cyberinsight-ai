@@ -1,5 +1,5 @@
 const API_URL = 
-  import.meta.env.VITE_API_URL || "/api";
+  import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
 
 export type ApiIncident = {
   id: number;
@@ -21,6 +21,44 @@ export type ApiPlaybook = {
   passos_de_mitigação: string[];
   isolamento_recomendado: boolean;
   prioridade: string;
+};
+
+export type TecnicaMitre = {
+  id: string;
+  nome: string;
+  confianca: number;
+};
+
+export type IocRelacionado = {
+  tipo: string;
+  valor: string;
+  fonte: string;
+};
+
+export type IncidenteSimilar = {
+  id: number;
+  titulo: string;
+  similaridade: string;
+};
+
+export type PlaybookSugerido = {
+  id: string;
+  nome: string;
+};
+
+export type IncidentAnalysis = {
+  classificacao: string;
+  severidade: string;
+  nivel_confianca: number;
+  resumo_executivo: string;
+  evidencias: string[];
+  tecnicas_mitre_attck: TecnicaMitre[];
+  iocs_relacionados: IocRelacionado[];
+  incidentes_similares: IncidenteSimilar[];
+  recomendacoes: string[];
+  playbook_sugerido: PlaybookSugerido;
+  requer_validacao_humana: boolean;
+  limitacoes_da_analise: string[];
 };
 
 export type LogAnalysisResponse = {
@@ -85,6 +123,22 @@ export async function importLogMock(logContent: string): Promise<LogAnalysisResp
 
   if (!response.ok) {
     throw new Error("Erro ao importar log");
+  }
+
+  return response.json();
+}
+
+export async function analyzeLogWithAI(logContent: string): Promise<IncidentAnalysis> {
+  const response = await fetch(`${API_URL}/ai/analyze`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ log_raw: logContent }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Erro ao analisar log com IA");
   }
 
   return response.json();
